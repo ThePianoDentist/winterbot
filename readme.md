@@ -1,14 +1,5 @@
-create table picks (
-id SERIAL PRIMARY KEY,
-match bigint references matches(matchID),
-isRadiant boolean NOT NULL,
-isPick boolean NOT NULL,
-pickBanNum integer NOT NULL,
-heroID integer NOT NULL
-);
+This aim to try and use neural nets to predict next pick/ban in dota 2 draft.
 
-create table matches (
-matchID bigint PRIMARY KEY,
-radiantTeamID integer NOT NULL,
-direTeamID integer NOT NULL
-);
+Named after Winter for his insanely insightful and predictive draft analysis
+
+Uses keras/python3

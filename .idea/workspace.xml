@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3db4c845-8966-4e30-b633-21d855c2aa8a" name="Default" comment="" />
+    <list default="true" id="3db4c845-8966-4e30-b633-21d855c2aa8a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,10 +50,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rnn(150, 90, 20, 0.2, 0.1, 0, epochs=400).png" pinned="false" current-in-tab="true">
+      <file leaf-file-name="rnn(150, 90, 20, 0.2, 0.1, 0, epochs=400).png" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphs/rnn(150, 90, 20, 0.2, 0.1, 0, epochs=400).png">
           <provider selected="true" editor-type-id="images">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/readme.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -94,12 +106,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/../dotaHighlightHelper/api_requests.py" />
-        <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/get_data.py" />
         <option value="$PROJECT_DIR$/data.txt" />
         <option value="$PROJECT_DIR$/data1.txt" />
         <option value="$PROJECT_DIR$/log.txt" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/readme.md" />
       </list>
     </option>
   </component>
@@ -649,13 +661,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/winterbotvenv/lib/python3.5/site-packages/numpy/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/readme.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/checkpoint_200_epoch_2000.hdf5" />
     <entry file="file://$PROJECT_DIR$/data.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -760,6 +765,14 @@
     <entry file="file://$PROJECT_DIR$/graphs/rnn(150, 90, 20, 0.2, 0.1, 0, epochs=400).png">
       <provider selected="true" editor-type-id="images">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
