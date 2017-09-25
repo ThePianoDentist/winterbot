@@ -41,11 +41,18 @@ def request_(req_url, sleep_time=1):
 
 
 def get_matches():
-    leagues_json = json.loads(request_("https://api.stratz.com/api/v1/league?take=9999"))
+    skip = 0
+    leagues_json = []
+    while True:
+        new = json.loads(request_("https://api.stratz.com/api/v1/league?take=100&skip=%s" % skip))
+        if not len(new):
+            break
+        leagues_json.extend(new)
+        skip += 100
     matches = []
 
     for league in (
-            l["id"] for l in leagues_json if l["id"] > 10)[:1]:
+            l["id"] for l in leagues_json if l["id"] > 10):
         league_games = json.loads(request_(
             "https://api.stratz.com/api/v1/match?leagueId=%s&include=pickBan,GameVersionId&take=250" % league,
         ))
