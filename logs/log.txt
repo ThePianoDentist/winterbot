@@ -1,0 +1,1011 @@
+/home/jdog/projects/python/venv/winterbotvenv/bin/python3.5 /home/jdog/projects/python/winterbot/main.py
+Using TensorFlow backend.
+loadede inputs
+loadede outputs
+Epoch number 1
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+2017-10-04 16:41:42.473464: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-04 16:41:42.473485: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-04 16:41:42.473488: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-04 16:41:42.473491: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-04 16:41:42.473494: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+39s - loss: 4.4592 - mean_squared_error: 0.0088 - acc: 0.0318 - val_loss: 4.3046 - val_mean_squared_error: 0.0088 - val_acc: 0.0421
+Pick: Sand King, Sand King, Invoker, Lina, Lina VS Sand King, Sand King, Invoker, Invoker, Lina
+
+Ban: Earth Spirit, Clockwerk, Juggernaut, Invoker, Lina VS Clockwerk, Clockwerk, Juggernaut, Invoker, Lina
+Last pick accuracy: 5.29446757882213 %
+Last ban accuracy: 5.443188578227246 %
+2nd phase pick accuracy: 4.104699583581202 %
+Epoch number 2
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.2808 - mean_squared_error: 0.0088 - acc: 0.0464 - val_loss: 4.2399 - val_mean_squared_error: 0.0088 - val_acc: 0.0581
+Pick: Sand King, Disruptor, Juggernaut, Juggernaut, Queen of Pain VS Sand King, Sand King, Juggernaut, Juggernaut, Queen of Pain
+
+Ban: Ursa, Night Stalker, Juggernaut, Juggernaut, Lina VS Bristleback, Clockwerk, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 4.55086258179655 %
+Last ban accuracy: 5.234979179060083 %
+2nd phase pick accuracy: 5.443188578227246 %
+Epoch number 3
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 4.2350 - mean_squared_error: 0.0087 - acc: 0.0498 - val_loss: 4.2051 - val_mean_squared_error: 0.0087 - val_acc: 0.0579
+Pick: Sand King, Sand King, Juggernaut, Juggernaut, Invoker VS Sand King, Sand King, Juggernaut, Juggernaut, Invoker
+
+Ban: Lich, Night Stalker, Juggernaut, Juggernaut, Lina VS Bristleback, Night Stalker, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 5.919095776323617 %
+Last ban accuracy: 5.324211778703153 %
+2nd phase pick accuracy: 5.339083878643665 %
+Epoch number 4
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 4.2065 - mean_squared_error: 0.0087 - acc: 0.0508 - val_loss: 4.1826 - val_mean_squared_error: 0.0087 - val_acc: 0.0579
+Pick: Clockwerk, Crystal Maiden, Juggernaut, Juggernaut, Lina VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Bristleback
+
+Ban: Windranger, Bristleback, Juggernaut, Juggernaut, Lina VS Bristleback, Clockwerk, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 2.9149315883402735 %
+Last ban accuracy: 4.788816180844735 %
+2nd phase pick accuracy: 4.863176680547293 %
+Epoch number 5
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 4.1682 - mean_squared_error: 0.0087 - acc: 0.0545 - val_loss: 4.1505 - val_mean_squared_error: 0.0087 - val_acc: 0.0588
+Pick: Crystal Maiden, Disruptor, Juggernaut, Juggernaut, Lina VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Invoker
+
+Ban: Ember Spirit, Bristleback, Juggernaut, Juggernaut, Lina VS Bristleback, Bristleback, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 4.55086258179655 %
+Last ban accuracy: 5.562165377751339 %
+2nd phase pick accuracy: 4.535990481856038 %
+Epoch number 6
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 4.1296 - mean_squared_error: 0.0087 - acc: 0.0589 - val_loss: 4.1283 - val_mean_squared_error: 0.0087 - val_acc: 0.0595
+Pick: Night Stalker, Ancient Apparition, Puck, Puck, Queen of Pain VS Sand King, Earthshaker, Puck, Puck, Queen of Pain
+
+Ban: Bane, Nyx Assassin, Batrider, Queen of Pain, Queen of Pain VS Night Stalker, Night Stalker, Batrider, Queen of Pain, Puck
+Last pick accuracy: 5.621653777513385 %
+Last ban accuracy: 5.413444378346222 %
+2nd phase pick accuracy: 4.892920880428316 %
+Epoch number 7
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 4.1081 - mean_squared_error: 0.0087 - acc: 0.0604 - val_loss: 4.1124 - val_mean_squared_error: 0.0087 - val_acc: 0.0611
+Pick: Clockwerk, Ancient Apparition, Puck, Queen of Pain, Queen of Pain VS Sand King, Rubick, Sven, Puck, Queen of Pain
+
+Ban: Lina, Nyx Assassin, Sven, Sven, Queen of Pain VS Night Stalker, Night Stalker, Queen of Pain, Sven, Queen of Pain
+Last pick accuracy: 5.056513979773944 %
+Last ban accuracy: 5.472932778108269 %
+2nd phase pick accuracy: 4.863176680547293 %
+Epoch number 8
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 4.0947 - mean_squared_error: 0.0087 - acc: 0.0609 - val_loss: 4.1090 - val_mean_squared_error: 0.0087 - val_acc: 0.0606
+Pick: Earthshaker, Necrophos, Necrophos, Puck, Queen of Pain VS Earthshaker, Earthshaker, Necrophos, Puck, Night Stalker
+
+Ban: Batrider, Nyx Assassin, Necrophos, Necrophos, Queen of Pain VS Night Stalker, Night Stalker, Necrophos, Necrophos, Queen of Pain
+Last pick accuracy: 4.967281380130874 %
+Last ban accuracy: 5.859607376561571 %
+2nd phase pick accuracy: 4.9821534800713865 %
+Epoch number 9
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 4.0825 - mean_squared_error: 0.0087 - acc: 0.0624 - val_loss: 4.1004 - val_mean_squared_error: 0.0087 - val_acc: 0.0637
+Pick: Crystal Maiden, Disruptor, Juggernaut, Juggernaut, Templar Assassin VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Invoker
+
+Ban: Terrorblade, Bristleback, Lifestealer, Juggernaut, Outworld Devourer VS Bristleback, Bristleback, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.621653777513385 %
+Last ban accuracy: 6.097560975609756 %
+2nd phase pick accuracy: 4.937537180249851 %
+Epoch number 10
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 4.0717 - mean_squared_error: 0.0087 - acc: 0.0636 - val_loss: 4.0868 - val_mean_squared_error: 0.0087 - val_acc: 0.0664
+Pick: Crystal Maiden, Disruptor, Juggernaut, Juggernaut, Tinker VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Invoker
+
+Ban: Undying, Bristleback, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Bristleback, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.621653777513385 %
+Last ban accuracy: 6.395002974419989 %
+2nd phase pick accuracy: 4.892920880428316 %
+Epoch number 11
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.0859 - mean_squared_error: 0.0087 - acc: 0.0632 - val_loss: 4.0877 - val_mean_squared_error: 0.0087 - val_acc: 0.0674
+Pick: Crystal Maiden, Ogre Magi, Juggernaut, Juggernaut, Outworld Devourer VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Tinker
+
+Ban: Sniper, Bristleback, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Bristleback, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 6.03807257584771 %
+Last ban accuracy: 6.03807257584771 %
+2nd phase pick accuracy: 4.937537180249851 %
+Epoch number 12
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+42s - loss: 4.0568 - mean_squared_error: 0.0087 - acc: 0.0662 - val_loss: 4.0765 - val_mean_squared_error: 0.0087 - val_acc: 0.0664
+Pick: Clockwerk, Disruptor, Juggernaut, Juggernaut, Tinker VS Clockwerk, Crystal Maiden, Juggernaut, Juggernaut, Invoker
+
+Ban: Undying, Bristleback, Lifestealer, Juggernaut, Outworld Devourer VS Bristleback, Bristleback, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.829863176680547 %
+Last ban accuracy: 6.811421772754313 %
+2nd phase pick accuracy: 4.922665080309339 %
+Epoch number 13
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 4.0474 - mean_squared_error: 0.0087 - acc: 0.0674 - val_loss: 4.0732 - val_mean_squared_error: 0.0087 - val_acc: 0.0685
+Pick: Clockwerk, Disruptor, Juggernaut, Juggernaut, Queen of Pain VS Sand King, Sand King, Juggernaut, Juggernaut, Queen of Pain
+
+Ban: Luna, Bristleback, Juggernaut, Juggernaut, Queen of Pain VS Bristleback, Clockwerk, Juggernaut, Juggernaut, Juggernaut
+Last pick accuracy: 5.829863176680547 %
+Last ban accuracy: 6.246281975014872 %
+2nd phase pick accuracy: 5.190362879238548 %
+Epoch number 14
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.0404 - mean_squared_error: 0.0087 - acc: 0.0688 - val_loss: 4.0704 - val_mean_squared_error: 0.0087 - val_acc: 0.0680
+Pick: Crystal Maiden, Sand King, Juggernaut, Juggernaut, Outworld Devourer VS Crystal Maiden, Crystal Maiden, Juggernaut, Juggernaut, Invoker
+
+Ban: Windranger, Bristleback, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Clockwerk, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.889351576442594 %
+Last ban accuracy: 6.186793575252826 %
+2nd phase pick accuracy: 4.803688280785247 %
+Epoch number 15
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+43s - loss: 4.0355 - mean_squared_error: 0.0087 - acc: 0.0697 - val_loss: 4.0644 - val_mean_squared_error: 0.0087 - val_acc: 0.0678
+Pick: Crystal Maiden, Sand King, Juggernaut, Juggernaut, Tinker VS Clockwerk, Sand King, Juggernaut, Juggernaut, Invoker
+
+Ban: Dazzle, Bristleback, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Bristleback, Lifestealer, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.383700178465199 %
+Last ban accuracy: 6.960142772159429 %
+2nd phase pick accuracy: 5.160618679357525 %
+Epoch number 16
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+47s - loss: 4.0278 - mean_squared_error: 0.0087 - acc: 0.0703 - val_loss: 4.0744 - val_mean_squared_error: 0.0087 - val_acc: 0.0654
+Pick: Sand King, Puck, Rubick, Queen of Pain, Queen of Pain VS Sand King, Sand King, Rubick, Queen of Pain, Queen of Pain
+
+Ban: Earth Spirit, Nyx Assassin, Queen of Pain, Queen of Pain, Queen of Pain VS Night Stalker, Clockwerk, Queen of Pain, Queen of Pain, Queen of Pain
+Last pick accuracy: 5.591909577632362 %
+Last ban accuracy: 7.257584770969661 %
+2nd phase pick accuracy: 4.83343248066627 %
+Epoch number 17
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.0228 - mean_squared_error: 0.0087 - acc: 0.0713 - val_loss: 4.0593 - val_mean_squared_error: 0.0087 - val_acc: 0.0664
+Pick: Crystal Maiden, Sand King, Juggernaut, Juggernaut, Lina VS Crystal Maiden, Sand King, Juggernaut, Juggernaut, Invoker
+
+Ban: Axe, Bristleback, Lifestealer, Juggernaut, Lina VS Bristleback, Clockwerk, Lifestealer, Juggernaut, Lina
+Last pick accuracy: 5.353955978584176 %
+Last ban accuracy: 6.543723973825104 %
+2nd phase pick accuracy: 4.714455681142177 %
+Epoch number 18
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.0185 - mean_squared_error: 0.0087 - acc: 0.0725 - val_loss: 4.0538 - val_mean_squared_error: 0.0087 - val_acc: 0.0706
+Pick: Sand King, Puck, Disruptor, Queen of Pain, Queen of Pain VS Sand King, Puck, Disruptor, Queen of Pain, Queen of Pain
+
+Ban: Nyx Assassin, Clockwerk, Queen of Pain, Queen of Pain, Queen of Pain VS Night Stalker, Sand King, Queen of Pain, Queen of Pain, Queen of Pain
+Last pick accuracy: 6.008328375966687 %
+Last ban accuracy: 6.543723973825104 %
+2nd phase pick accuracy: 5.20523497917906 %
+Epoch number 19
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 4.0128 - mean_squared_error: 0.0087 - acc: 0.0733 - val_loss: 4.0560 - val_mean_squared_error: 0.0087 - val_acc: 0.0693
+Pick: Earthshaker, Batrider, Rubick, Queen of Pain, Queen of Pain VS Earthshaker, Earthshaker, Shadow Shaman, Faceless Void, Venomancer
+
+Ban: Doom, Nyx Assassin, Necrophos, Necrophos, Queen of Pain VS Night Stalker, Lich, Necrophos, Necrophos, Queen of Pain
+Last pick accuracy: 5.502676977989292 %
+Last ban accuracy: 7.168352171326592 %
+2nd phase pick accuracy: 5.026769779892921 %
+Epoch number 20
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 4.0086 - mean_squared_error: 0.0087 - acc: 0.0737 - val_loss: 4.0561 - val_mean_squared_error: 0.0087 - val_acc: 0.0688
+Pick: Earthshaker, Necrophos, Shadow Shaman, Sven, Queen of Pain VS Lich, Earthshaker, Rubick, Faceless Void, Venomancer
+
+Ban: Mirana, Nyx Assassin, Necrophos, Puck, Queen of Pain VS Night Stalker, Nyx Assassin, Necrophos, Necrophos, Queen of Pain
+Last pick accuracy: 5.710886377156454 %
+Last ban accuracy: 6.454491374182035 %
+2nd phase pick accuracy: 5.071386079714456 %
+Epoch number 21
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+44s - loss: 4.0038 - mean_squared_error: 0.0087 - acc: 0.0742 - val_loss: 4.0461 - val_mean_squared_error: 0.0087 - val_acc: 0.0707
+Pick: Sand King, Disruptor, Juggernaut, Razor, Queen of Pain VS Sand King, Crystal Maiden, Juggernaut, Juggernaut, Queen of Pain
+
+Ban: Enigma, Clockwerk, Juggernaut, Juggernaut, Queen of Pain VS Bristleback, Night Stalker, Juggernaut, Juggernaut, Queen of Pain
+Last pick accuracy: 5.591909577632362 %
+Last ban accuracy: 6.841165972635337 %
+2nd phase pick accuracy: 5.547293277810827 %
+Epoch number 22
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.9978 - mean_squared_error: 0.0087 - acc: 0.0749 - val_loss: 4.0453 - val_mean_squared_error: 0.0087 - val_acc: 0.0698
+Pick: Sand King, Disruptor, Juggernaut, Lina, Lina VS Sand King, Crystal Maiden, Juggernaut, Juggernaut, Lina
+
+Ban: Magnus, Clockwerk, Juggernaut, Juggernaut, Lina VS Bristleback, Night Stalker, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 5.591909577632362 %
+Last ban accuracy: 6.395002974419989 %
+2nd phase pick accuracy: 5.071386079714456 %
+Epoch number 23
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.9924 - mean_squared_error: 0.0087 - acc: 0.0755 - val_loss: 4.0432 - val_mean_squared_error: 0.0087 - val_acc: 0.0703
+Pick: Sand King, Puck, Rubick, Queen of Pain, Queen of Pain VS Sand King, Puck, Rubick, Sven, Queen of Pain
+
+Ban: Mirana, Nyx Assassin, Queen of Pain, Sven, Queen of Pain VS Night Stalker, Nyx Assassin, Sven, Queen of Pain, Queen of Pain
+Last pick accuracy: 5.651397977394408 %
+Last ban accuracy: 7.108863771564546 %
+2nd phase pick accuracy: 5.190362879238548 %
+Epoch number 24
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.9878 - mean_squared_error: 0.0087 - acc: 0.0766 - val_loss: 4.0406 - val_mean_squared_error: 0.0087 - val_acc: 0.0728
+Pick: Sand King, Crystal Maiden, Juggernaut, Juggernaut, Queen of Pain VS Nyx Assassin, Crystal Maiden, Juggernaut, Juggernaut, Lina
+
+Ban: Clinkz, Clockwerk, Juggernaut, Juggernaut, Lina VS Bristleback, Night Stalker, Juggernaut, Juggernaut, Lina
+Last pick accuracy: 5.413444378346222 %
+Last ban accuracy: 7.287328970850685 %
+2nd phase pick accuracy: 5.472932778108269 %
+Epoch number 25
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.9825 - mean_squared_error: 0.0086 - acc: 0.0774 - val_loss: 4.0390 - val_mean_squared_error: 0.0087 - val_acc: 0.0713
+Pick: Crystal Maiden, Dark Seer, Centaur Warrunner, Juggernaut, Lina VS Disruptor, Sand King, Slardar, Lifestealer, Sniper
+
+Ban: Sniper, Invoker, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Invoker, Juggernaut, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.175490779298038 %
+Last ban accuracy: 6.4842355740630575 %
+2nd phase pick accuracy: 5.710886377156454 %
+Epoch number 26
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.9776 - mean_squared_error: 0.0086 - acc: 0.0780 - val_loss: 4.0332 - val_mean_squared_error: 0.0087 - val_acc: 0.0738
+Pick: Sand King, Disruptor, Rubick, Queen of Pain, Queen of Pain VS Sand King, Queen of Pain, Bristleback, Queen of Pain, Queen of Pain
+
+Ban: Batrider, Nyx Assassin, Queen of Pain, Queen of Pain, Queen of Pain VS Night Stalker, Clockwerk, Queen of Pain, Queen of Pain, Queen of Pain
+Last pick accuracy: 5.591909577632362 %
+Last ban accuracy: 6.841165972635337 %
+2nd phase pick accuracy: 5.919095776323617 %
+Epoch number 27
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 3.9737 - mean_squared_error: 0.0086 - acc: 0.0783 - val_loss: 4.0415 - val_mean_squared_error: 0.0087 - val_acc: 0.0711
+Pick: Ogre Magi, Disruptor, Juggernaut, Juggernaut, Outworld Devourer VS Ogre Magi, Sand King, Slardar, Lifestealer, Invoker
+
+Ban: Weaver, Invoker, Juggernaut, Tinker, Outworld Devourer VS Bristleback, Invoker, Juggernaut, Tinker, Tinker
+Last pick accuracy: 5.443188578227246 %
+Last ban accuracy: 7.376561570493753 %
+2nd phase pick accuracy: 5.800118976799524 %
+Epoch number 28
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.9681 - mean_squared_error: 0.0086 - acc: 0.0794 - val_loss: 4.0322 - val_mean_squared_error: 0.0087 - val_acc: 0.0726
+Pick: Crystal Maiden, Sand King, Juggernaut, Outworld Devourer, Outworld Devourer VS Clockwerk, Crystal Maiden, Juggernaut, Lifestealer, Invoker
+
+Ban: Slark, Invoker, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Treant Protector, Juggernaut, Juggernaut, Outworld Devourer
+Last pick accuracy: 5.562165377751339 %
+Last ban accuracy: 7.049375371802498 %
+2nd phase pick accuracy: 5.919095776323617 %
+Epoch number 29
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 3.9590 - mean_squared_error: 0.0086 - acc: 0.0805 - val_loss: 4.0310 - val_mean_squared_error: 0.0087 - val_acc: 0.0716
+Pick: Crystal Maiden, Disruptor, Slardar, Lifestealer, Lina VS Disruptor, Sand King, Slardar, Lifestealer, Sniper
+
+Ban: Storm Spirit, Invoker, Juggernaut, Juggernaut, Tinker VS Bristleback, Tinker, Juggernaut, Juggernaut, Tinker
+Last pick accuracy: 5.056513979773944 %
+Last ban accuracy: 6.811421772754313 %
+2nd phase pick accuracy: 5.725758477096966 %
+Epoch number 30
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.9563 - mean_squared_error: 0.0086 - acc: 0.0807 - val_loss: 4.0253 - val_mean_squared_error: 0.0087 - val_acc: 0.0727
+Pick: Ogre Magi, Sand King, Centaur Warrunner, Outworld Devourer, Outworld Devourer VS Ogre Magi, Disruptor, Centaur Warrunner, Lifestealer, Invoker
+
+Ban: Wraith King, Invoker, Lifestealer, Tinker, Outworld Devourer VS Bristleback, Invoker, Lifestealer, Tinker, Tinker
+Last pick accuracy: 5.413444378346222 %
+Last ban accuracy: 7.465794170136824 %
+2nd phase pick accuracy: 5.859607376561571 %
+Epoch number 31
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 3.9491 - mean_squared_error: 0.0086 - acc: 0.0807 - val_loss: 4.0255 - val_mean_squared_error: 0.0087 - val_acc: 0.0706
+Pick: Sand King, Nyx Assassin, Juggernaut, Juggernaut, Queen of Pain VS Crystal Maiden, Crystal Maiden, Juggernaut, Lifestealer, Lina
+
+Ban: Bloodseeker, Clockwerk, Juggernaut, Juggernaut, Lina VS Bristleback, Night Stalker, Juggernaut, Juggernaut, Tinker
+Last pick accuracy: 5.026769779892921 %
+Last ban accuracy: 6.722189173111243 %
+2nd phase pick accuracy: 5.606781677572873 %
+Epoch number 32
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.9454 - mean_squared_error: 0.0086 - acc: 0.0807 - val_loss: 4.0251 - val_mean_squared_error: 0.0087 - val_acc: 0.0731
+Pick: Sand King, Batrider, Rubick, Lina, Queen of Pain VS Crystal Maiden, Dark Seer, Juggernaut, Juggernaut, Lina
+
+Ban: Bane, Night Stalker, Juggernaut, Juggernaut, Lina VS Clockwerk, Nyx Assassin, Juggernaut, Juggernaut, Puck
+Last pick accuracy: 5.621653777513385 %
+Last ban accuracy: 7.406305770374777 %
+2nd phase pick accuracy: 6.246281975014872 %
+Epoch number 33
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.9394 - mean_squared_error: 0.0086 - acc: 0.0829 - val_loss: 4.0188 - val_mean_squared_error: 0.0087 - val_acc: 0.0742
+Pick: Earthshaker, Shadow Shaman, Puck, Puck, Queen of Pain VS Sand King, Shadow Shaman, Puck, Puck, Queen of Pain
+
+Ban: Venomancer, Nyx Assassin, Necrophos, Necrophos, Puck VS Night Stalker, Lich, Necrophos, Necrophos, Puck
+Last pick accuracy: 5.29446757882213 %
+Last ban accuracy: 7.317073170731707 %
+2nd phase pick accuracy: 5.814991076740036 %
+Epoch number 34
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 3.9346 - mean_squared_error: 0.0086 - acc: 0.0833 - val_loss: 4.0147 - val_mean_squared_error: 0.0087 - val_acc: 0.0736
+Pick: Ogre Magi, Dark Seer, Centaur Warrunner, Lifestealer, Lina VS Sand King, Crystal Maiden, Juggernaut, Lifestealer, Lina
+
+Ban: Invoker, Invoker, Juggernaut, Lifestealer, Tinker VS Bristleback, Treant Protector, Lifestealer, Juggernaut, Tinker
+Last pick accuracy: 5.681142177275431 %
+Last ban accuracy: 7.257584770969661 %
+2nd phase pick accuracy: 5.413444378346222 %
+Epoch number 35
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.9287 - mean_squared_error: 0.0086 - acc: 0.0839 - val_loss: 4.0171 - val_mean_squared_error: 0.0087 - val_acc: 0.0733
+Pick: Night Stalker, Batrider, Rubick, Razor, Queen of Pain VS Dark Seer, Crystal Maiden, Disruptor, Razor, Lina
+
+Ban: Gyrocopter, Sand King, Juggernaut, Razor, Lina VS Clockwerk, Treant Protector, Disruptor, Juggernaut, Lina
+Last pick accuracy: 5.086258179654967 %
+Last ban accuracy: 7.4360499702558 %
+2nd phase pick accuracy: 5.681142177275431 %
+Epoch number 36
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 3.9236 - mean_squared_error: 0.0086 - acc: 0.0844 - val_loss: 4.0126 - val_mean_squared_error: 0.0087 - val_acc: 0.0728
+Pick: Sand King, Queen of Pain, Disruptor, Sven, Queen of Pain VS Puck, Queen of Pain, Disruptor, Disruptor, Dragon Knight
+
+Ban: Io, Nyx Assassin, Ancient Apparition, Disruptor, Sven VS Night Stalker, Clockwerk, Queen of Pain, Sven, Sven
+Last pick accuracy: 5.056513979773944 %
+Last ban accuracy: 6.989886972040452 %
+2nd phase pick accuracy: 5.324211778703153 %
+Epoch number 37
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.9154 - mean_squared_error: 0.0086 - acc: 0.0863 - val_loss: 4.0132 - val_mean_squared_error: 0.0087 - val_acc: 0.0744
+Pick: Ogre Magi, Dark Seer, Centaur Warrunner, Lifestealer, Lina VS Ogre Magi, Crystal Maiden, Disruptor, Lifestealer, Invoker
+
+Ban: Lion, Invoker, Juggernaut, Juggernaut, Tinker VS Bristleback, Treant Protector, Lifestealer, Juggernaut, Tinker
+Last pick accuracy: 5.651397977394408 %
+Last ban accuracy: 6.960142772159429 %
+2nd phase pick accuracy: 5.859607376561571 %
+Epoch number 38
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+42s - loss: 3.9121 - mean_squared_error: 0.0086 - acc: 0.0858 - val_loss: 4.0127 - val_mean_squared_error: 0.0087 - val_acc: 0.0725
+Pick: Sand King, Juggernaut, Juggernaut, Puck, Venomancer VS Rubick, Rubick, Juggernaut, Puck, Clockwerk
+
+Ban: Leshrac, Night Stalker, Lifestealer, Juggernaut, Lina VS Nyx Assassin, Clockwerk, Juggernaut, Lifestealer, Puck
+Last pick accuracy: 5.651397977394408 %
+Last ban accuracy: 7.495538370017847 %
+2nd phase pick accuracy: 5.681142177275431 %
+Epoch number 39
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.9057 - mean_squared_error: 0.0086 - acc: 0.0876 - val_loss: 4.0124 - val_mean_squared_error: 0.0087 - val_acc: 0.0731
+Pick: Sand King, Earthshaker, Centaur Warrunner, Lifestealer, Outworld Devourer VS Disruptor, Ogre Magi, Centaur Warrunner, Lifestealer, Invoker
+
+Ban: Witch Doctor, Invoker, Juggernaut, Storm Spirit, Outworld Devourer VS Bristleback, Invoker, Lifestealer, Tinker, Tinker
+Last pick accuracy: 5.7703747769185005 %
+Last ban accuracy: 6.454491374182035 %
+2nd phase pick accuracy: 6.052944675788222 %
+Epoch number 40
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.8995 - mean_squared_error: 0.0086 - acc: 0.0879 - val_loss: 4.0101 - val_mean_squared_error: 0.0087 - val_acc: 0.0733
+Pick: Clockwerk, Shadow Fiend, Rubick, Legion Commander, Queen of Pain VS Rubick, Queen of Pain, Rubick, Legion Commander, Dragon Knight
+
+Ban: Puck, Nyx Assassin, Drow Ranger, Drow Ranger, Sven VS Night Stalker, Sand King, Shadow Fiend, Drow Ranger, Legion Commander
+Last pick accuracy: 5.800118976799524 %
+Last ban accuracy: 7.406305770374777 %
+2nd phase pick accuracy: 5.606781677572873 %
+Epoch number 41
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 3.8937 - mean_squared_error: 0.0086 - acc: 0.0893 - val_loss: 4.0050 - val_mean_squared_error: 0.0087 - val_acc: 0.0753
+Pick: Lich, Puck, Rubick, Puck, Queen of Pain VS Sand King, Shadow Shaman, Clockwerk, Monkey King, Mirana
+
+Ban: Faceless Void, Nyx Assassin, Necrophos, Puck, Puck VS Night Stalker, Venomancer, Necrophos, Viper, Puck
+Last pick accuracy: 5.502676977989292 %
+Last ban accuracy: 7.108863771564546 %
+2nd phase pick accuracy: 5.562165377751339 %
+Epoch number 42
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.8894 - mean_squared_error: 0.0086 - acc: 0.0906 - val_loss: 4.0072 - val_mean_squared_error: 0.0087 - val_acc: 0.0750
+Pick: Crystal Maiden, Dark Seer, Clockwerk, Outworld Devourer, Outworld Devourer VS Ogre Magi, Crystal Maiden, Juggernaut, Lifestealer, Invoker
+
+Ban: Dazzle, Invoker, Juggernaut, Juggernaut, Outworld Devourer VS Bristleback, Treant Protector, Sven, Juggernaut, Tinker
+Last pick accuracy: 5.681142177275431 %
+Last ban accuracy: 7.822724568709102 %
+2nd phase pick accuracy: 5.487804878048781 %
+Epoch number 43
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 3.8809 - mean_squared_error: 0.0086 - acc: 0.0913 - val_loss: 4.0040 - val_mean_squared_error: 0.0087 - val_acc: 0.0748
+Pick: Ogre Magi, Dark Seer, Nyx Assassin, Lifestealer, Lina VS Clockwerk, Crystal Maiden, Disruptor, Lifestealer, Lina
+
+Ban: Juggernaut, Invoker, Juggernaut, Juggernaut, Storm Spirit VS Bristleback, Treant Protector, Shadow Fiend, Juggernaut, Lina
+Last pick accuracy: 5.472932778108269 %
+Last ban accuracy: 7.049375371802498 %
+2nd phase pick accuracy: 5.859607376561571 %
+Epoch number 44
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.8747 - mean_squared_error: 0.0086 - acc: 0.0913 - val_loss: 4.0058 - val_mean_squared_error: 0.0087 - val_acc: 0.0742
+Pick: Sand King, Batrider, Rubick, Queen of Pain, Queen of Pain VS Earthshaker, Ancient Apparition, Venomancer, Queen of Pain, Dragon Knight
+
+Ban: Lycan, Clockwerk, Lifestealer, Lifestealer, Queen of Pain VS Night Stalker, Nyx Assassin, Venomancer, Lifestealer, Templar Assassin
+Last pick accuracy: 5.443188578227246 %
+Last ban accuracy: 7.138607971445568 %
+2nd phase pick accuracy: 5.517549077929804 %
+Epoch number 45
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+44s - loss: 3.8689 - mean_squared_error: 0.0086 - acc: 0.0930 - val_loss: 4.0090 - val_mean_squared_error: 0.0087 - val_acc: 0.0739
+Pick: Nyx Assassin, Crystal Maiden, Dark Seer, Invoker, Queen of Pain VS Sand King, Crystal Maiden, Juggernaut, Juggernaut, Queen of Pain
+
+Ban: Legion Commander, Clockwerk, Lifestealer, Juggernaut, Tinker VS Bristleback, Treant Protector, Lifestealer, Juggernaut, Tinker
+Last pick accuracy: 5.086258179654967 %
+Last ban accuracy: 7.1980963712076145 %
+2nd phase pick accuracy: 5.66627007733492 %
+Epoch number 46
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+36s - loss: 3.8629 - mean_squared_error: 0.0086 - acc: 0.0936 - val_loss: 4.0017 - val_mean_squared_error: 0.0087 - val_acc: 0.0740
+Pick: Ogre Magi, Tidehunter, Centaur Warrunner, Lifestealer, Outworld Devourer VS Ogre Magi, Ogre Magi, Centaur Warrunner, Lifestealer, Tinker
+
+Ban: Zeus, Invoker, Tinker, Tinker, Outworld Devourer VS Bristleback, Invoker, Lifestealer, Tinker, Tinker
+Last pick accuracy: 5.443188578227246 %
+Last ban accuracy: 7.4360499702558 %
+2nd phase pick accuracy: 5.785246876859013 %
+Epoch number 47
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.8526 - mean_squared_error: 0.0086 - acc: 0.0950 - val_loss: 4.0036 - val_mean_squared_error: 0.0087 - val_acc: 0.0765
+Pick: Crystal Maiden, Sand King, Centaur Warrunner, Lifestealer, Outworld Devourer VS Clockwerk, Crystal Maiden, Dark Seer, Lifestealer, Sniper
+
+Ban: Anti-Mage, Invoker, Juggernaut, Lifestealer, Outworld Devourer VS Bristleback, Treant Protector, Shadow Fiend, Juggernaut, Outworld Devourer
+Last pick accuracy: 6.008328375966687 %
+Last ban accuracy: 7.079119571683521 %
+2nd phase pick accuracy: 5.398572278405711 %
+Epoch number 48
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.8459 - mean_squared_error: 0.0086 - acc: 0.0952 - val_loss: 4.0025 - val_mean_squared_error: 0.0087 - val_acc: 0.0745
+Pick: Sand King, Batrider, Silencer, Juggernaut, Queen of Pain VS Earthshaker, Crystal Maiden, Juggernaut, Juggernaut, Queen of Pain
+
+Ban: Tusk, Night Stalker, Juggernaut, Lifestealer, Puck VS Clockwerk, Nyx Assassin, Silencer, Lifestealer, Puck
+Last pick accuracy: 5.443188578227246 %
+Last ban accuracy: 6.811421772754313 %
+2nd phase pick accuracy: 5.874479476502082 %
+Epoch number 49
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+35s - loss: 3.8344 - mean_squared_error: 0.0086 - acc: 0.0984 - val_loss: 3.9994 - val_mean_squared_error: 0.0087 - val_acc: 0.0769
+Pick: Sand King, Puck, Disruptor, Sven, Queen of Pain VS Dark Seer, Queen of Pain, Disruptor, Sven, Dragon Knight
+
+Ban: Phoenix, Nyx Assassin, Sven, Disruptor, Lina VS Night Stalker, Clockwerk, Disruptor, Sven, Batrider
+Last pick accuracy: 5.056513979773944 %
+Last ban accuracy: 6.008328375966687 %
+2nd phase pick accuracy: 6.03807257584771 %
+Epoch number 50
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+34s - loss: 3.8276 - mean_squared_error: 0.0086 - acc: 0.0987 - val_loss: 4.0125 - val_mean_squared_error: 0.0087 - val_acc: 0.0747
+Pick: Sand King, Disruptor, Rubick, Razor, Dragon Knight VS Dark Seer, Queen of Pain, Rubick, Razor, Dragon Knight
+
+Ban: Chen, Night Stalker, Queen of Pain, Disruptor, Templar Assassin VS Clockwerk, Nyx Assassin, Batrider, Queen of Pain, Templar Assassin
+Last pick accuracy: 5.383700178465199 %
+Last ban accuracy: 6.9006543723973826 %
+2nd phase pick accuracy: 5.7703747769185005 %
+Epoch number 51
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.8179 - mean_squared_error: 0.0086 - acc: 0.0997 - val_loss: 4.0014 - val_mean_squared_error: 0.0087 - val_acc: 0.0752
+Pick: Sand King, Warlock, Nyx Assassin, Ursa, Queen of Pain VS Crystal Maiden, Dark Seer, Nyx Assassin, Lifestealer, Invoker
+
+Ban: Treant Protector, Night Stalker, Ursa, Ursa, Outworld Devourer VS Clockwerk, Bristleback, Juggernaut, Ursa, Templar Assassin
+Last pick accuracy: 5.472932778108269 %
+Last ban accuracy: 7.525282569898869 %
+2nd phase pick accuracy: 5.353955978584176 %
+Epoch number 52
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.8099 - mean_squared_error: 0.0086 - acc: 0.1015 - val_loss: 3.9993 - val_mean_squared_error: 0.0087 - val_acc: 0.0754
+Pick: Sand King, Batrider, Queen of Pain, Queen of Pain, Queen of Pain VS Earthshaker, Ancient Apparition, Rubick, Queen of Pain, Dragon Knight
+
+Ban: Beastmaster, Night Stalker, Lifestealer, Queen of Pain, Puck VS Nyx Assassin, Clockwerk, Lifestealer, Lifestealer, Puck
+Last pick accuracy: 5.591909577632362 %
+Last ban accuracy: 7.703747769185008 %
+2nd phase pick accuracy: 5.309339678762641 %
+Epoch number 53
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+45s - loss: 3.7985 - mean_squared_error: 0.0085 - acc: 0.1035 - val_loss: 3.9971 - val_mean_squared_error: 0.0087 - val_acc: 0.0747
+Pick: Crystal Maiden, Night Stalker, Lifestealer, Sven, Queen of Pain VS Clockwerk, Jakiro, Dark Seer, Lifestealer, Sniper
+
+Ban: Spectre, Invoker, Sven, Dark Seer, Storm Spirit VS Bristleback, Sand King, Sven, Nyx Assassin, Tinker
+Last pick accuracy: 5.086258179654967 %
+Last ban accuracy: 6.78167757287329 %
+2nd phase pick accuracy: 5.145746579417014 %
+Epoch number 54
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.7877 - mean_squared_error: 0.0085 - acc: 0.1041 - val_loss: 3.9966 - val_mean_squared_error: 0.0087 - val_acc: 0.0758
+Pick: Sand King, Dark Seer, Disruptor, Razor, Queen of Pain VS Earthshaker, Crystal Maiden, Disruptor, Razor, Invoker
+
+Ban: Broodmother, Venomancer, Juggernaut, Razor, Lina VS Bristleback, Night Stalker, Disruptor, Nyx Assassin, Puck
+Last pick accuracy: 5.859607376561571 %
+Last ban accuracy: 7.317073170731707 %
+2nd phase pick accuracy: 5.859607376561571 %
+Epoch number 55
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.7741 - mean_squared_error: 0.0085 - acc: 0.1082 - val_loss: 3.9987 - val_mean_squared_error: 0.0087 - val_acc: 0.0756
+Pick: Ogre Magi, Dark Seer, Lifestealer, Outworld Devourer, Outworld Devourer VS Crystal Maiden, Dark Seer, Disruptor, Lifestealer, Outworld Devourer
+
+Ban: Lina, Invoker, Sven, Sven, Outworld Devourer VS Bristleback, Treant Protector, Sven, Sven, Outworld Devourer
+Last pick accuracy: 5.889351576442594 %
+Last ban accuracy: 6.722189173111243 %
+2nd phase pick accuracy: 5.383700178465199 %
+Epoch number 56
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.7683 - mean_squared_error: 0.0085 - acc: 0.1079 - val_loss: 4.0084 - val_mean_squared_error: 0.0087 - val_acc: 0.0761
+Pick: Sand King, Jakiro, Legion Commander, Queen of Pain, Queen of Pain VS Jakiro, Puck, Dark Seer, Sven, Venomancer
+
+Ban: Lone Druid, Night Stalker, Lifestealer, Lifestealer, Puck VS Clockwerk, Nyx Assassin, Dark Seer, Lifestealer, Puck
+Last pick accuracy: 5.710886377156454 %
+Last ban accuracy: 7.4360499702558 %
+2nd phase pick accuracy: 5.8447352766210585 %
+Epoch number 57
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.7561 - mean_squared_error: 0.0085 - acc: 0.1105 - val_loss: 4.0012 - val_mean_squared_error: 0.0087 - val_acc: 0.0731
+Pick: Ogre Magi, Rubick, Dark Seer, Lifestealer, Tinker VS Sand King, Crystal Maiden, Tinker, Juggernaut, Storm Spirit
+
+Ban: Windranger, Invoker, Juggernaut, Sven, Sven VS Bristleback, Treant Protector, Silencer, Dark Seer, Sven
+Last pick accuracy: 5.681142177275431 %
+Last ban accuracy: 6.513979773944081 %
+2nd phase pick accuracy: 5.443188578227246 %
+Epoch number 58
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.7447 - mean_squared_error: 0.0085 - acc: 0.1119 - val_loss: 3.9966 - val_mean_squared_error: 0.0087 - val_acc: 0.0769
+Pick: Crystal Maiden, Clockwerk, Nyx Assassin, Sven, Lina VS Sand King, Crystal Maiden, Sven, Sven, Sniper
+
+Ban: Warlock, Invoker, Juggernaut, Sven, Storm Spirit VS Bristleback, Treant Protector, Shadow Fiend, Lifestealer, Lina
+Last pick accuracy: 5.651397977394408 %
+Last ban accuracy: 6.989886972040452 %
+2nd phase pick accuracy: 5.814991076740036 %
+Epoch number 59
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+34s - loss: 3.7326 - mean_squared_error: 0.0085 - acc: 0.1141 - val_loss: 3.9985 - val_mean_squared_error: 0.0087 - val_acc: 0.0751
+Pick: Lich, Legion Commander, Earth Spirit, Queen of Pain, Queen of Pain VS Sand King, Shadow Shaman, Kunkka, Juggernaut, Viper
+
+Ban: Visage, Nyx Assassin, Necrophos, Necrophos, Puck VS Night Stalker, Earthshaker, Necrophos, Necrophos, Puck
+Last pick accuracy: 5.710886377156454 %
+Last ban accuracy: 7.138607971445568 %
+2nd phase pick accuracy: 5.428316478286734 %
+Epoch number 60
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+34s - loss: 3.7213 - mean_squared_error: 0.0085 - acc: 0.1157 - val_loss: 3.9956 - val_mean_squared_error: 0.0087 - val_acc: 0.0757
+Pick: Crystal Maiden, Sand King, Nyx Assassin, Lifestealer, Lina VS Dark Seer, Disruptor, Nyx Assassin, Lifestealer, Lina
+
+Ban: Axe, Tinker, Juggernaut, Sven, Outworld Devourer VS Bristleback, Tinker, Lifestealer, Sven, Lina
+Last pick accuracy: 5.829863176680547 %
+Last ban accuracy: 7.674003569303986 %
+2nd phase pick accuracy: 5.651397977394408 %
+Epoch number 61
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.7047 - mean_squared_error: 0.0085 - acc: 0.1196 - val_loss: 3.9990 - val_mean_squared_error: 0.0087 - val_acc: 0.0759
+Pick: Ogre Magi, Rubick, Nyx Assassin, Ursa, Lina VS Sand King, Crystal Maiden, Magnus, Ursa, Lina
+
+Ban: Bloodseeker, Invoker, Ursa, Lifestealer, Tinker VS Bristleback, Treant Protector, Magnus, Sven, Tinker
+Last pick accuracy: 6.008328375966687 %
+Last ban accuracy: 7.6145151695419395 %
+2nd phase pick accuracy: 5.309339678762641 %
+Epoch number 62
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.6857 - mean_squared_error: 0.0085 - acc: 0.1225 - val_loss: 4.0028 - val_mean_squared_error: 0.0087 - val_acc: 0.0735
+Pick: Sand King, Ancient Apparition, Disruptor, Sven, Dragon Knight VS Rubick, Queen of Pain, Earthshaker, Sven, Dragon Knight
+
+Ban: Puck, Nyx Assassin, Drow Ranger, Sven, Sven VS Night Stalker, Clockwerk, Batrider, Drow Ranger, Sven
+Last pick accuracy: 6.0678167757287325 %
+Last ban accuracy: 7.227840571088638 %
+2nd phase pick accuracy: 5.175490779298038 %
+Epoch number 63
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.6761 - mean_squared_error: 0.0085 - acc: 0.1250 - val_loss: 4.0000 - val_mean_squared_error: 0.0087 - val_acc: 0.0758
+Pick: Earthshaker, Batrider, Necrophos, Puck, Queen of Pain VS Sand King, Shadow Shaman, Shadow Shaman, Necrophos, Anti-Mage
+
+Ban: Nyx Assassin, Venomancer, Necrophos, Necrophos, Anti-Mage VS Night Stalker, Lich, Oracle, Necrophos, Puck
+Last pick accuracy: 6.454491374182035 %
+Last ban accuracy: 7.971445568114217 %
+2nd phase pick accuracy: 5.591909577632362 %
+Epoch number 64
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.6617 - mean_squared_error: 0.0085 - acc: 0.1269 - val_loss: 4.0027 - val_mean_squared_error: 0.0087 - val_acc: 0.0750
+Pick: Crystal Maiden, Kunkka, Sven, Tinker, Queen of Pain VS Sand King, Jakiro, Centaur Warrunner, Ursa, Sniper
+
+Ban: Warlock, Invoker, Lifestealer, Sven, Outworld Devourer VS Bristleback, Treant Protector, Dark Seer, Juggernaut, Tinker
+Last pick accuracy: 6.395002974419989 %
+Last ban accuracy: 7.792980368828078 %
+2nd phase pick accuracy: 5.472932778108269 %
+Epoch number 65
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.6460 - mean_squared_error: 0.0084 - acc: 0.1290 - val_loss: 4.0119 - val_mean_squared_error: 0.0087 - val_acc: 0.0732
+Pick: Clockwerk, Disruptor, Legion Commander, Lifestealer, Queen of Pain VS Rubick, Puck, Kunkka, Juggernaut, Queen of Pain
+
+Ban: Kunkka, Nyx Assassin, Drow Ranger, Lifestealer, Queen of Pain VS Night Stalker, Sand King, Shadow Fiend, Drow Ranger, Queen of Pain
+Last pick accuracy: 6.870910172516359 %
+Last ban accuracy: 8.060678167757288 %
+2nd phase pick accuracy: 5.443188578227246 %
+Epoch number 66
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.6283 - mean_squared_error: 0.0084 - acc: 0.1314 - val_loss: 4.0112 - val_mean_squared_error: 0.0087 - val_acc: 0.0752
+Pick: Dark Seer, Bristleback, Kunkka, Troll Warlord, Lina VS Crystal Maiden, Disruptor, Ursa, Nyx Assassin, Lina
+
+Ban: Brewmaster, Clockwerk, Ursa, Ursa, Templar Assassin VS Night Stalker, Sand King, Ursa, Ursa, Templar Assassin
+Last pick accuracy: 7.138607971445568 %
+Last ban accuracy: 8.566329565734682 %
+2nd phase pick accuracy: 5.681142177275431 %
+Epoch number 67
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.6130 - mean_squared_error: 0.0084 - acc: 0.1341 - val_loss: 4.0055 - val_mean_squared_error: 0.0087 - val_acc: 0.0757
+Pick: Crystal Maiden, Earthshaker, Nyx Assassin, Outworld Devourer, Troll Warlord VS Warlock, Sand King, Ursa, Lifestealer, Lina
+
+Ban: Dark Seer, Bristleback, Ursa, Lifestealer, Puck VS Night Stalker, Clockwerk, Lifestealer, Lifestealer, Puck
+Last pick accuracy: 6.989886972040452 %
+Last ban accuracy: 8.625817965496728 %
+2nd phase pick accuracy: 5.502676977989292 %
+Epoch number 68
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.5986 - mean_squared_error: 0.0084 - acc: 0.1379 - val_loss: 4.0158 - val_mean_squared_error: 0.0087 - val_acc: 0.0741
+Pick: Puck, Batrider, Rubick, Lifestealer, Queen of Pain VS Earthshaker, Disruptor, Venomancer, Juggernaut, Queen of Pain
+
+Ban: Clockwerk, Nyx Assassin, Drow Ranger, Sven, Puck VS Night Stalker, Sand King, Drow Ranger, Sven, Templar Assassin
+Last pick accuracy: 7.525282569898869 %
+Last ban accuracy: 9.071980963712075 %
+2nd phase pick accuracy: 6.082688875669245 %
+Epoch number 69
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+42s - loss: 3.5748 - mean_squared_error: 0.0084 - acc: 0.1402 - val_loss: 4.0168 - val_mean_squared_error: 0.0087 - val_acc: 0.0749
+Pick: Jakiro, Sand King, Juggernaut, Earthshaker, Queen of Pain VS Nyx Assassin, Warlock, Earthshaker, Ursa, Queen of Pain
+
+Ban: Dark Seer, Bristleback, Venomancer, Razor, Queen of Pain VS Night Stalker, Clockwerk, Invoker, Venomancer, Queen of Pain
+Last pick accuracy: 7.882212968471149 %
+Last ban accuracy: 8.328375966686497 %
+2nd phase pick accuracy: 5.428316478286734 %
+Epoch number 70
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.5665 - mean_squared_error: 0.0084 - acc: 0.1432 - val_loss: 4.0167 - val_mean_squared_error: 0.0087 - val_acc: 0.0750
+Pick: Sand King, Disruptor, Earthshaker, Sven, Queen of Pain VS Rubick, Queen of Pain, Dark Seer, Sven, Dragon Knight
+
+Ban: Puck, Nyx Assassin, Drow Ranger, Dark Seer, Batrider VS Night Stalker, Clockwerk, Drow Ranger, Drow Ranger, Razor
+Last pick accuracy: 7.555026769779893 %
+Last ban accuracy: 8.893515764425937 %
+2nd phase pick accuracy: 5.547293277810827 %
+Epoch number 71
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.5452 - mean_squared_error: 0.0084 - acc: 0.1459 - val_loss: 4.0314 - val_mean_squared_error: 0.0087 - val_acc: 0.0714
+Pick: Crystal Maiden, Dark Seer, Legion Commander, Queen of Pain, Queen of Pain VS Clockwerk, Dark Seer, Disruptor, Juggernaut, Invoker
+
+Ban: Witch Doctor, Sand King, Disruptor, Lifestealer, Queen of Pain VS Bristleback, Treant Protector, Juggernaut, Juggernaut, Queen of Pain
+Last pick accuracy: 7.792980368828078 %
+Last ban accuracy: 8.239143367043427 %
+2nd phase pick accuracy: 5.413444378346222 %
+Epoch number 72
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.5289 - mean_squared_error: 0.0083 - acc: 0.1505 - val_loss: 4.0389 - val_mean_squared_error: 0.0087 - val_acc: 0.0740
+Pick: Night Stalker, Dark Seer, Disruptor, Lifestealer, Puck VS Spirit Breaker, Disruptor, Juggernaut, Puck, Silencer
+
+Ban: Ember Spirit, Treant Protector, Juggernaut, Juggernaut, Tinker VS Bristleback, Clockwerk, Disruptor, Disruptor, Puck
+Last pick accuracy: 8.715050565139798 %
+Last ban accuracy: 8.655562165377752 %
+2nd phase pick accuracy: 5.636525877453896 %
+Epoch number 73
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+41s - loss: 3.5060 - mean_squared_error: 0.0083 - acc: 0.1537 - val_loss: 4.0409 - val_mean_squared_error: 0.0087 - val_acc: 0.0737
+Pick: Sand King, Batrider, Disruptor, Razor, Queen of Pain VS Night Stalker, Crystal Maiden, Juggernaut, Earthshaker, Queen of Pain
+
+Ban: Lina, Bristleback, Juggernaut, Juggernaut, Queen of Pain VS Clockwerk, Nyx Assassin, Disruptor, Lifestealer, Queen of Pain
+Last pick accuracy: 7.674003569303986 %
+Last ban accuracy: 8.209399167162404 %
+2nd phase pick accuracy: 5.428316478286734 %
+Epoch number 74
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+42s - loss: 3.4869 - mean_squared_error: 0.0083 - acc: 0.1577 - val_loss: 4.0543 - val_mean_squared_error: 0.0087 - val_acc: 0.0721
+Pick: Nyx Assassin, Venomancer, Earthshaker, Juggernaut, Queen of Pain VS Slardar, Shadow Shaman, Juggernaut, Earthshaker, Queen of Pain
+
+Ban: Meepo, Clockwerk, Bristleback, Bristleback, Puck VS Night Stalker, Sand King, Lifestealer, Lifestealer, Puck
+Last pick accuracy: 7.971445568114217 %
+Last ban accuracy: 8.239143367043427 %
+2nd phase pick accuracy: 5.264723378941107 %
+Epoch number 75
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.4725 - mean_squared_error: 0.0083 - acc: 0.1586 - val_loss: 4.0490 - val_mean_squared_error: 0.0087 - val_acc: 0.0719
+Pick: Ogre Magi, Spirit Breaker, Jakiro, Outworld Devourer, Shadow Fiend VS Warlock, Dark Seer, Slardar, Lifestealer, Tinker
+
+Ban: Dazzle, Invoker, Sven, Sven, Outworld Devourer VS Bristleback, Treant Protector, Magnus, Sven, Anti-Mage
+Last pick accuracy: 8.387864366448543 %
+Last ban accuracy: 8.596073765615705 %
+2nd phase pick accuracy: 5.190362879238548 %
+Epoch number 76
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.4479 - mean_squared_error: 0.0083 - acc: 0.1630 - val_loss: 4.0624 - val_mean_squared_error: 0.0087 - val_acc: 0.0734
+Pick: Crystal Maiden, Kunkka, Juggernaut, Dark Seer, Enigma VS Sand King, Jakiro, Puck, Queen of Pain, Anti-Mage
+
+Ban: Oracle, Clockwerk, Invoker, Puck, Sven VS Nyx Assassin, Earthshaker, Venomancer, Puck, Puck
+Last pick accuracy: 8.26888756692445 %
+Last ban accuracy: 8.536585365853659 %
+2nd phase pick accuracy: 5.6960142772159434 %
+Epoch number 77
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.4359 - mean_squared_error: 0.0083 - acc: 0.1650 - val_loss: 4.0659 - val_mean_squared_error: 0.0088 - val_acc: 0.0746
+Pick: Sand King, Jakiro, Earthshaker, Queen of Pain, Troll Warlord VS Rubick, Queen of Pain, Earthshaker, Sven, Puck
+
+Ban: Beastmaster, Nyx Assassin, Drow Ranger, Sven, Puck VS Night Stalker, Clockwerk, Batrider, Drow Ranger, Razor
+Last pick accuracy: 7.792980368828078 %
+Last ban accuracy: 9.01249256395003 %
+2nd phase pick accuracy: 5.562165377751339 %
+Epoch number 78
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.4160 - mean_squared_error: 0.0082 - acc: 0.1701 - val_loss: 4.0718 - val_mean_squared_error: 0.0088 - val_acc: 0.0736
+Pick: Sand King, Batrider, Lina, Disruptor, Bloodseeker VS Earthshaker, Ancient Apparition, Nyx Assassin, Lifestealer, Queen of Pain
+
+Ban: Broodmother, Venomancer, Faceless Void, Nyx Assassin, Puck VS Bristleback, Night Stalker, Nyx Assassin, Nyx Assassin, Faceless Void
+Last pick accuracy: 8.239143367043427 %
+Last ban accuracy: 9.428911362284355 %
+2nd phase pick accuracy: 5.11600237953599 %
+Epoch number 79
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+39s - loss: 3.3953 - mean_squared_error: 0.0082 - acc: 0.1725 - val_loss: 4.0815 - val_mean_squared_error: 0.0088 - val_acc: 0.0732
+Pick: Jakiro, Batrider, Legion Commander, Shadow Fiend, Sven VS Jakiro, Batrider, Juggernaut, Legion Commander, Sven
+
+Ban: Enchantress, Io, Juggernaut, Lifestealer, Terrorblade VS Clockwerk, Io, Nyx Assassin, Lifestealer, Troll Warlord
+Last pick accuracy: 7.911957168352171 %
+Last ban accuracy: 9.280190362879239 %
+2nd phase pick accuracy: 5.428316478286734 %
+Epoch number 80
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.3664 - mean_squared_error: 0.0082 - acc: 0.1789 - val_loss: 4.0910 - val_mean_squared_error: 0.0088 - val_acc: 0.0705
+Pick: Puck, Kunkka, Earthshaker, Lina, Ursa VS Sand King, Disruptor, Venomancer, Bristleback, Dragon Knight
+
+Ban: Dragon Knight, Nyx Assassin, Faceless Void, Razor, Venomancer VS Night Stalker, Dark Seer, Ancient Apparition, Lifestealer, Venomancer
+Last pick accuracy: 7.822724568709102 %
+Last ban accuracy: 8.536585365853659 %
+2nd phase pick accuracy: 5.264723378941107 %
+Epoch number 81
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.3543 - mean_squared_error: 0.0082 - acc: 0.1815 - val_loss: 4.0991 - val_mean_squared_error: 0.0088 - val_acc: 0.0736
+Pick: Crystal Maiden, Earthshaker, Slardar, Lifestealer, Queen of Pain VS Warlock, Sand King, Juggernaut, Nyx Assassin, Queen of Pain
+
+Ban: Timbersaw, Treant Protector, Troll Warlord, Lifestealer, Outworld Devourer VS Bristleback, Clockwerk, Dark Seer, Juggernaut, Outworld Devourer
+Last pick accuracy: 7.852468768590125 %
+Last ban accuracy: 9.309934562760262 %
+2nd phase pick accuracy: 5.636525877453896 %
+Epoch number 82
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.3367 - mean_squared_error: 0.0082 - acc: 0.1835 - val_loss: 4.1097 - val_mean_squared_error: 0.0088 - val_acc: 0.0722
+Pick: Crystal Maiden, Earthshaker, Centaur Warrunner, Outworld Devourer, Chaos Knight VS Warlock, Dark Seer, Slardar, Lifestealer, Sniper
+
+Ban: Tinker, Invoker, Sven, Sven, Storm Spirit VS Bristleback, Treant Protector, Nyx Assassin, Juggernaut, Anti-Mage
+Last pick accuracy: 8.209399167162404 %
+Last ban accuracy: 9.01249256395003 %
+2nd phase pick accuracy: 5.041641879833433 %
+Epoch number 83
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+40s - loss: 3.3193 - mean_squared_error: 0.0081 - acc: 0.1877 - val_loss: 4.1155 - val_mean_squared_error: 0.0088 - val_acc: 0.0750
+Pick: Jakiro, Earthshaker, Dark Seer, Sven, Queen of Pain VS Sand King, Crystal Maiden, Juggernaut, Nyx Assassin, Queen of Pain
+
+Ban: Razor, Treant Protector, Lifestealer, Dark Seer, Puck VS Clockwerk, Bristleback, Lifestealer, Tinker, Tinker
+Last pick accuracy: 8.149910767400357 %
+Last ban accuracy: 9.607376561570494 %
+2nd phase pick accuracy: 5.428316478286734 %
+Epoch number 84
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.2919 - mean_squared_error: 0.0081 - acc: 0.1933 - val_loss: 4.1360 - val_mean_squared_error: 0.0088 - val_acc: 0.0713
+Pick: Crystal Maiden, Earthshaker, Venomancer, Queen of Pain, Batrider VS Warlock, Sand King, Clockwerk, Razor, Queen of Pain
+
+Ban: Timbersaw, Treant Protector, Invoker, Tinker, Storm Spirit VS Bristleback, Magnus, Lifestealer, Juggernaut, Silencer
+Last pick accuracy: 7.733491969066033 %
+Last ban accuracy: 8.834027364663891 %
+2nd phase pick accuracy: 5.071386079714456 %
+Epoch number 85
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.2773 - mean_squared_error: 0.0081 - acc: 0.1958 - val_loss: 4.1504 - val_mean_squared_error: 0.0088 - val_acc: 0.0696
+Pick: Lich, Legion Commander, Earth Spirit, Queen of Pain, Faceless Void VS Venomancer, Shadow Shaman, Earth Spirit, Earth Spirit, Mirana
+
+Ban: Earthshaker, Sand King, Shadow Shaman, Ursa, Puck VS Nyx Assassin, Night Stalker, Legion Commander, Ursa, Faceless Void
+Last pick accuracy: 7.674003569303986 %
+Last ban accuracy: 8.893515764425937 %
+2nd phase pick accuracy: 4.863176680547293 %
+Epoch number 86
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.2575 - mean_squared_error: 0.0081 - acc: 0.2009 - val_loss: 4.1602 - val_mean_squared_error: 0.0088 - val_acc: 0.0725
+Pick: Treant Protector, Earthshaker, Rubick, Juggernaut, Sniper VS Clockwerk, Crystal Maiden, Rubick, Shadow Fiend, Bristleback
+
+Ban: Phantom Lancer, Bristleback, Shadow Fiend, Puck, Sven VS Invoker, Sand King, Juggernaut, Shadow Fiend, Tinker
+Last pick accuracy: 8.358120166567518 %
+Last ban accuracy: 9.696609161213564 %
+2nd phase pick accuracy: 5.710886377156454 %
+Epoch number 87
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+38s - loss: 3.2380 - mean_squared_error: 0.0081 - acc: 0.2035 - val_loss: 4.1657 - val_mean_squared_error: 0.0088 - val_acc: 0.0708
+Pick: Disruptor, Earthshaker, Centaur Warrunner, Lina, Shadow Fiend VS Crystal Maiden, Sand King, Dark Seer, Lifestealer, Lina
+
+Ban: Undying, Tinker, Troll Warlord, Troll Warlord, Lina VS Bristleback, Clockwerk, Lifestealer, Troll Warlord, Outworld Devourer
+Last pick accuracy: 8.030933967876264 %
+Last ban accuracy: 9.250446162998216 %
+2nd phase pick accuracy: 5.041641879833433 %
+Epoch number 88
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.2205 - mean_squared_error: 0.0080 - acc: 0.2070 - val_loss: 4.1854 - val_mean_squared_error: 0.0088 - val_acc: 0.0707
+Pick: Night Stalker, Batrider, Disruptor, Queen of Pain, Queen of Pain VS Spirit Breaker, Earthshaker, Juggernaut, Dark Seer, Puck
+
+Ban: Ursa, Sand King, Dark Seer, Dark Seer, Puck VS Bristleback, Clockwerk, Lifestealer, Venomancer, Shadow Fiend
+Last pick accuracy: 8.358120166567518 %
+Last ban accuracy: 9.1017251635931 %
+2nd phase pick accuracy: 5.413444378346222 %
+Epoch number 89
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+37s - loss: 3.1998 - mean_squared_error: 0.0080 - acc: 0.2110 - val_loss: 4.1954 - val_mean_squared_error: 0.0089 - val_acc: 0.0731
+Pick: Venomancer, Clockwerk, Rubick, Terrorblade, Mirana VS Earthshaker, Shadow Shaman, Batrider, Puck, Anti-Mage
+
+Ban: Ancient Apparition, Necrophos, Weaver, Viper, Terrorblade VS Lich, Nyx Assassin, Viper, Lycan, Broodmother
+Last pick accuracy: 8.060678167757288 %
+Last ban accuracy: 9.071980963712075 %
+2nd phase pick accuracy: 5.234979179060083 %
+Epoch number 90
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.1884 - mean_squared_error: 0.0080 - acc: 0.2143 - val_loss: 4.2162 - val_mean_squared_error: 0.0089 - val_acc: 0.0695
+Pick: Crystal Maiden, Kunkka, Juggernaut, Earthshaker, Queen of Pain VS Sand King, Ancient Apparition, Venomancer, Invoker, Clockwerk
+
+Ban: Oracle, Clockwerk, Faceless Void, Faceless Void, Drow Ranger VS Nyx Assassin, Puck, Venomancer, Venomancer, Templar Assassin
+Last pick accuracy: 7.852468768590125 %
+Last ban accuracy: 8.566329565734682 %
+2nd phase pick accuracy: 5.101130279595479 %
+Epoch number 91
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+34s - loss: 3.1559 - mean_squared_error: 0.0080 - acc: 0.2198 - val_loss: 4.2225 - val_mean_squared_error: 0.0089 - val_acc: 0.0702
+Pick: Ogre Magi, Clockwerk, Juggernaut, Puck, Magnus VS Warlock, Sand King, Juggernaut, Earthshaker, Lina
+
+Ban: Rubick, Invoker, Magnus, Storm Spirit, Storm Spirit VS Bristleback, Treant Protector, Lifestealer, Slark, Magnus
+Last pick accuracy: 7.465794170136824 %
+Last ban accuracy: 9.518143961927423 %
+2nd phase pick accuracy: 5.130874479476502 %
+Epoch number 92
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.1410 - mean_squared_error: 0.0079 - acc: 0.2234 - val_loss: 4.2359 - val_mean_squared_error: 0.0089 - val_acc: 0.0684
+Pick: Earthshaker, Batrider, Earth Spirit, Juggernaut, Puck VS Lich, Necrophos, Earth Spirit, Earth Spirit, Mirana
+
+Ban: Faceless Void, Nyx Assassin, Kunkka, Faceless Void, Puck VS Night Stalker, Sand King, Lifestealer, Weaver, Outworld Devourer
+Last pick accuracy: 7.108863771564546 %
+Last ban accuracy: 8.625817965496728 %
+2nd phase pick accuracy: 5.130874479476502 %
+Epoch number 93
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.1323 - mean_squared_error: 0.0079 - acc: 0.2257 - val_loss: 4.2506 - val_mean_squared_error: 0.0089 - val_acc: 0.0700
+Pick: Sand King, Jakiro, Omniknight, Outworld Devourer, Juggernaut VS Jakiro, Night Stalker, Lifestealer, Nyx Assassin, Queen of Pain
+
+Ban: Magnus, Warlock, Invoker, Tinker, Outworld Devourer VS Bristleback, Clockwerk, Tinker, Lina, Juggernaut
+Last pick accuracy: 7.763236168947055 %
+Last ban accuracy: 9.66686496133254 %
+2nd phase pick accuracy: 5.2795954788816175 %
+Epoch number 94
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.1139 - mean_squared_error: 0.0079 - acc: 0.2294 - val_loss: 4.2540 - val_mean_squared_error: 0.0089 - val_acc: 0.0701
+Pick: Earthshaker, Rubick, Monkey King, Puck, Mirana VS Sand King, Shadow Shaman, Puck, Necrophos, Anti-Mage
+
+Ban: Venomancer, Nyx Assassin, Queen of Pain, Necrophos, Sven VS Night Stalker, Lich, Juggernaut, Necrophos, Tinker
+Last pick accuracy: 7.763236168947055 %
+Last ban accuracy: 8.774538964901843 %
+2nd phase pick accuracy: 5.234979179060083 %
+Epoch number 95
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.0940 - mean_squared_error: 0.0079 - acc: 0.2342 - val_loss: 4.2771 - val_mean_squared_error: 0.0089 - val_acc: 0.0703
+Pick: Clockwerk, Crystal Maiden, Lina, Bristleback, Earth Spirit VS Sand King, Rubick, Omniknight, Juggernaut, Shadow Fiend
+
+Ban: Arc Warden, Nyx Assassin, Razor, Templar Assassin, Templar Assassin VS Night Stalker, Puck, Razor, Batrider, Warlock
+Last pick accuracy: 7.852468768590125 %
+Last ban accuracy: 8.447352766210589 %
+2nd phase pick accuracy: 5.101130279595479 %
+Epoch number 96
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+32s - loss: 3.0729 - mean_squared_error: 0.0079 - acc: 0.2382 - val_loss: 4.2881 - val_mean_squared_error: 0.0089 - val_acc: 0.0709
+Pick: Earthshaker, Venomancer, Oracle, Huskar, Queen of Pain VS Puck, Earth Spirit, Rubick, Sven, Ember Spirit
+
+Ban: Nature's Prophet, Lich, Weaver, Drow Ranger, Ember Spirit VS Nyx Assassin, Night Stalker, Drow Ranger, Weaver, Dark Seer
+Last pick accuracy: 7.495538370017847 %
+Last ban accuracy: 9.250446162998216 %
+2nd phase pick accuracy: 5.056513979773944 %
+Epoch number 97
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.0498 - mean_squared_error: 0.0078 - acc: 0.2444 - val_loss: 4.3070 - val_mean_squared_error: 0.0089 - val_acc: 0.0694
+Pick: Vengeful Spirit, Silencer, Centaur Warrunner, Ursa, Outworld Devourer VS Jakiro, Warlock, Sand King, Lifestealer, Tinker
+
+Ban: Dark Seer, Bristleback, Ursa, Templar Assassin, Outworld Devourer VS Night Stalker, Clockwerk, Ursa, Lifestealer, Invoker
+Last pick accuracy: 7.4360499702558 %
+Last ban accuracy: 9.131469363474123 %
+2nd phase pick accuracy: 5.086258179654967 %
+Epoch number 98
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 3.0237 - mean_squared_error: 0.0078 - acc: 0.2487 - val_loss: 4.3278 - val_mean_squared_error: 0.0089 - val_acc: 0.0694
+Pick: Ogre Magi, Slardar, Invoker, Sven, Axe VS Clockwerk, Shadow Fiend, Necrophos, Disruptor, Silencer
+
+Ban: Viper, Juggernaut, Slark, Disruptor, Sven VS Bristleback, Axe, Disruptor, Invoker, Axe
+Last pick accuracy: 7.733491969066033 %
+Last ban accuracy: 8.239143367043427 %
+2nd phase pick accuracy: 4.937537180249851 %
+Epoch number 99
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+32s - loss: 3.0054 - mean_squared_error: 0.0078 - acc: 0.2528 - val_loss: 4.3437 - val_mean_squared_error: 0.0090 - val_acc: 0.0665
+Pick: Io, Bane, Disruptor, Drow Ranger, Venomancer VS Queen of Pain, Queen of Pain, Earthshaker, Drow Ranger, Venomancer
+
+Ban: Night Stalker, Clockwerk, Drow Ranger, Drow Ranger, Legion Commander VS Nyx Assassin, Sand King, Batrider, Batrider, Razor
+Last pick accuracy: 7.227840571088638 %
+Last ban accuracy: 8.804283164782866 %
+2nd phase pick accuracy: 4.9821534800713865 %
+Epoch number 100
+Train on 6726 samples, validate on 1681 samples
+Epoch 1/1
+33s - loss: 2.9934 - mean_squared_error: 0.0077 - acc: 0.2532 - val_loss: 4.3586 - val_mean_squared_error: 0.0090 - val_acc: 0.0679
+Pick: Nyx Assassin, Warlock, Earthshaker, Razor, Lina VS Jakiro, Sand King, Earthshaker, Witch Doctor, Ember Spirit
+
+Ban: Beastmaster, Night Stalker, Batrider, Bristleback, Puck VS Clockwerk, Keeper of the Light, Ursa, Razor, Earthshaker
+Last pick accuracy: 7.227840571088638 %
+Last ban accuracy: 9.220701963117191 %
+2nd phase pick accuracy: 5.2795954788816175 %
+
+Process finished with exit code 0

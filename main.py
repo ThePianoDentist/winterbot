@@ -6,11 +6,14 @@ import traceback
 from random import shuffle
 from urllib.request import Request, urlopen
 
+import keras
 import numpy as np
-from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout
+from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout, LeakyReLU
 from keras.models import Sequential
 from keras.optimizers import adam
 import matplotlib.pyplot as plt
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score, KFold
 
 with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
     HEROES = json.load(f)
@@ -58,12 +61,12 @@ def get_matches():
         ))
         left = league_games["total"] - 250
         skip = 250
-        matches.extend([l["pickBans"] for l in league_games["results"]])
+        matches.extend([l["pickBans"] for l in league_games["results"] if l.get("gameVersionId") >= 75])
         while left >= 0:
             league_games = json.loads(request_(
                 "https://api.stratz.com/api/v1/match?leagueId=%s&include=pickBan,GameVersionId&take=250&skip=%s" % (league, skip),
             ))
-            matches.extend([l["pickBans"] for l in league_games["results"]])
+            matches.extend([l["pickBans"] for l in league_games["results"] if l.get("gameVersionId") >= 75])
             skip += 250
             left -= 250
     return matches
@@ -76,31 +79,34 @@ if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data
 
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.txt")) as f:
         inputs = ast.literal_eval(f.read())
+        print("loadede inputs")
 
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.txt")) as f:
         outputs = ast.literal_eval(f.read())
+        print("loadede outputs")
 else:
     matches = get_matches()
     inputs = []
     outputs = []
     for match in matches:
-        input_ = [-1] * (113 * 4 + 1)
+        input_ = [-1] * (113 * 4)
         if len(match) != 20:
             continue
+        last_pick_team = match[-1]["team"]
         for i, pick in enumerate(match):
             is_pick = pick["isPick"]
-            input_[0] = 1 if is_pick else -1
             hero_id = pick["heroId"]
             data.append(hero_id)
-            if pick["team"] == 0:
-                outputs.append(hero_id)
-                inputs.append(input_.copy())  # copy necessary otherwise future loops will screw up old results!
+            if pick["team"] == last_pick_team:  # our picks/bans
+                if i == 19:  # lets just focus on testing last pick
+                    outputs.append(hero_id)
+                    inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
 
                 index = hero_id_to_ix(hero_id)
                 if is_pick:
                     index += 113
                 input_[index] = 1
-            else:
+            else:  # enemy picks/bans
                 index = hero_id_to_ix(hero_id) + 113 * 2
                 if is_pick:
                     index += 113
@@ -125,7 +131,25 @@ ix_to_hero = {ix: char for ix, char in enumerate(heroes)}
 hero_to_ix = {char: ix for ix, char in enumerate(heroes)}
 
 
-def basic_nn():
+def basic_nn(inputs_, outputs_):
+    # validation_split does not shuffle data set i dont think
+    from sklearn.utils import shuffle
+    inputs_, outputs_ = shuffle(inputs_, outputs_)
+    # could also just use from sklearn.model_selection import train_test_split
+    # check/google relu vs sigmoid
+    dim = 113 * 4
+    outputs_ = [hero_id_to_ix(o) for o in outputs_]
+    one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
+    model = Sequential()
+    model.add(Dropout(0.2, input_shape=(113*4,)))
+    model.add(Dense(dim, activation='sigmoid'))
+    model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
+    model.add(Dropout(0.2))
+    model.add(Dense(250, activation='sigmoid'))
+    model.add(LeakyReLU())
+    model.add(Dense(113, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
+    model.fit(np.array(inputs_), one_hot_labels, epochs=150, batch_size=32, verbose=1, validation_split=0.2)
     return
 
 
@@ -255,6 +279,7 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
     optimizer = adam(lr=learning_rate)
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['mse', 'accuracy'])
 
+    hist_dict = {"acc": [], "val_acc": [], "mean_squared_error": [], "val_mean_squared_error": []}  # cant just use results.history because doing epoch 1 in a loop
     for i, e in enumerate(range(epochs)):
         print("Epoch number %s" % (i + 1))
         results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
@@ -262,7 +287,8 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
         print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
         print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
         print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
-        model.save_weights('weights2.hdf5')
+        if i % 10 == 0:
+            model.save_weights('weights2.hdf5')
         out = {
             'mse': results.history["mean_squared_error"],
             'val_mse': results.history["val_mean_squared_error"],
@@ -281,25 +307,21 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
             "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
             "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         }
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "results.json"), "w+") as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "results/rnn_%s_%s_%s_%s_%s_%s_%s_%s.json" % (
+                                   nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
+                               )), "w+") as f:
             json.dump(out, f)
 
-    # d = {'epochs': [epochs], 'learning_rate': [learning_rate], 'nodes1': [nodes1], 'nodes2': [nodes2], 'nodes3': [nodes3],
-    #      'dropout1': [dropout1], 'dropout2': [dropout2], 'dropout3': [dropout3], 'batch_size': [batch_size],
-    #      }
-    # new_df = pd.DataFrame(data=d, index=[0])
-    # new_df['mse'] = [results.history["mean_squared_error"]]
-    # new_df['val_mse'] = [results.history["val_mean_squared_error"]]
-    # new_df['accuracy'] = [results.history["acc"]]
-    # new_df['val_accuracy'] = [results.history["val_acc"]]
-    # if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models.csv")):
-    #     df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models.csv"))
-    #     df.append(new_df, ignore_index=True)
-    # else:
-    #     df = new_df
-    # df.to_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models.csv"))
-    plot_learning_curves(results.history, "rnn(500, 500, 200, 0.2, 0.2, 0, epochs=100, batch_size=4)large")
+        hist_dict['mean_squared_error'].append(results.history["mean_squared_error"][0]),
+        hist_dict['val_mean_squared_error'].append(results.history["val_mean_squared_error"][0]),
+        hist_dict['acc'].append(results.history["acc"][0]),
+        hist_dict['val_acc'].append(results.history["val_acc"][0]),
+
+    plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
+                                   nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
+                               ))
 
 if __name__ == "__main__":
-    rnn(500, 500, 0, 0.2, 0.2, 0, epochs=100, batch_size=16, learning_rate=0.1)
-    #rnn(130, 40, 10, 0.2, 0.2, 0, epochs=100, batch_size=64)
+    #basic_nn(inputs, outputs)
+    rnn(200, 200, 150, 0.3, 0.2, 0, epochs=200, batch_size=128)
