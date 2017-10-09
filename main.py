@@ -77,13 +77,13 @@ if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
         data = ast.literal_eval(f.read())
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.txt")) as f:
-        inputs = ast.literal_eval(f.read())
-        print("loadede inputs")
-
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.txt")) as f:
-        outputs = ast.literal_eval(f.read())
-        print("loadede outputs")
+    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
+    #     inputs = ast.literal_eval(f.read())
+    #     print("loadede inputs")
+    #
+    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
+    #     outputs = ast.literal_eval(f.read())
+    #     print("loadede outputs")
 else:
     matches = get_matches()
     inputs = []
@@ -137,19 +137,19 @@ def basic_nn(inputs_, outputs_):
     inputs_, outputs_ = shuffle(inputs_, outputs_)
     # could also just use from sklearn.model_selection import train_test_split
     # check/google relu vs sigmoid
-    dim = 113 * 4
+    dim = 113 * 4 * 2
     outputs_ = [hero_id_to_ix(o) for o in outputs_]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
     model = Sequential()
     model.add(Dropout(0.2, input_shape=(113*4,)))
     model.add(Dense(dim, activation='sigmoid'))
     model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
-    model.add(Dropout(0.2))
-    model.add(Dense(250, activation='sigmoid'))
+    model.add(Dropout(0))
+    model.add(Dense(dim // 2, activation='sigmoid'))
     model.add(LeakyReLU())
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
-    model.fit(np.array(inputs_), one_hot_labels, epochs=150, batch_size=32, verbose=1, validation_split=0.2)
+    model.fit(np.array(inputs_), one_hot_labels, epochs=150, batch_size=32, verbose=2, validation_split=0.2)
     return
 
 
@@ -233,6 +233,7 @@ def plot_learning_curves(hist, filename):
     ax1.plot(hist['val_mean_squared_error'], label="val")
     ax0.legend(loc='upper left')
     plt.savefig(os.path.join(os.path.dirname(os.path.abspath(__file__)), "graphs/%s.png" % filename))
+    plt.close()
 
 
 def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
@@ -285,8 +286,8 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
         results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
         generate_draft(model)
         print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
-        print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
-        print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
+        #print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
+        #print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
         if i % 10 == 0:
             model.save_weights('weights2.hdf5')
         out = {
@@ -318,10 +319,12 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
         hist_dict['acc'].append(results.history["acc"][0]),
         hist_dict['val_acc'].append(results.history["val_acc"][0]),
 
-    plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
-                                   nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
-                               ))
+        plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
+                                       nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
+                                   ))
 
 if __name__ == "__main__":
+    from tensorflow.python.client import device_lib
+
     #basic_nn(inputs, outputs)
-    rnn(200, 200, 150, 0.3, 0.2, 0, epochs=200, batch_size=128)
+    rnn(114, 114, 114, 0, 0, 0, epochs=200, batch_size=128, learning_rate=0.005)
