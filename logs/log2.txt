@@ -1,0 +1,87 @@
+/home/jdog/projects/python/venv/winterbotvenv/bin/python3.5 /home/jdog/projects/python/winterbot/main.py
+rnn(500, 400, 300, 0.05, 0, 0, epochs=200, batch_size=128, learning_rate=0.005)
+Using TensorFlow backend.
+Epoch number 1
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+2017-10-10 09:28:12.190449: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-10 09:28:12.190717: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-10 09:28:12.190724: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-10 09:28:12.190727: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-10-10 09:28:12.190730: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+865s - loss: 4.0348 - mean_squared_error: 0.0087 - acc: 0.0691 - val_loss: 3.8997 - val_mean_squared_error: 0.0086 - val_acc: 0.0829
+Pick: Ogre Magi, Keeper of the Light, Bristleback, Phantom Assassin, Lina VS Jakiro, Drow Ranger, Vengeful Spirit, Viper, Venomancer
+
+Ban: Morphling, Invoker, Viper, Vengeful Spirit, Nature's Prophet VS Tinker, Keeper of the Light, Sniper, Sniper, Sniper
+Last pick accuracy: 8.18619184604702 %
+Epoch number 2
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+967s - loss: 3.8178 - mean_squared_error: 0.0086 - acc: 0.0991 - val_loss: 3.7970 - val_mean_squared_error: 0.0086 - val_acc: 0.0971
+Pick: Earthshaker, Shadow Shaman, Clockwerk, Puck, Anti-Mage VS Night Stalker, Ancient Apparition, Sand King, Invoker, Phantom Lancer
+
+Ban: Nature's Prophet, Venomancer, Faceless Void, Sven, Anti-Mage VS Necrophos, Lich, Viper, Bloodseeker, Anti-Mage
+Last pick accuracy: 9.088880071421485 %
+Epoch number 3
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+937s - loss: 3.7548 - mean_squared_error: 0.0086 - acc: 0.1086 - val_loss: 3.7488 - val_mean_squared_error: 0.0086 - val_acc: 0.1018
+Pick: Lich, Clockwerk, Legion Commander, Troll Warlord, Queen of Pain VS Earthshaker, Shadow Shaman, Clockwerk, Ursa, Tinker
+
+Ban: Oracle, Venomancer, Nature's Prophet, Bloodseeker, Invoker VS Necrophos, Night Stalker, Viper, Faceless Void, Queen of Pain
+Last pick accuracy: 9.470786628310684 %
+Epoch number 4
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+801s - loss: 3.7022 - mean_squared_error: 0.0085 - acc: 0.1153 - val_loss: 3.7158 - val_mean_squared_error: 0.0085 - val_acc: 0.1076
+Pick: Disruptor, Ogre Magi, Slardar, Lifestealer, Shadow Fiend VS Jakiro, Vengeful Spirit, Weaver, Viper, Undying
+
+Ban: Storm Spirit, Invoker, Drow Ranger, Luna, Troll Warlord VS Tinker, Bristleback, Sniper, Zeus, Lina
+Last pick accuracy: 9.73365737526039 %
+Epoch number 5
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+809s - loss: 3.6636 - mean_squared_error: 0.0085 - acc: 0.1209 - val_loss: 3.6896 - val_mean_squared_error: 0.0085 - val_acc: 0.1123
+Pick: Ogre Magi, Disruptor, Magnus, Juggernaut, Storm Spirit VS Jakiro, Vengeful Spirit, Weaver, Viper, Witch Doctor
+
+Ban: Slark, Invoker, Drow Ranger, Luna, Outworld Devourer VS Tinker, Bristleback, Sniper, Zeus, Queen of Pain
+Last pick accuracy: 10.710742981847039 %
+Epoch number 6
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+807s - loss: 3.6311 - mean_squared_error: 0.0085 - acc: 0.1258 - val_loss: 3.6998 - val_mean_squared_error: 0.0085 - val_acc: 0.1095
+Pick: Jakiro, Slardar, Dazzle, Viper, Huskar VS Undying, Weaver, Witch Doctor, Necrophos, Nature's Prophet
+
+Ban: Abaddon, Bristleback, Drow Ranger, Vengeful Spirit, Troll Warlord VS Tinker, Sniper, Keeper of the Light, Zeus, Ursa
+Last pick accuracy: 10.242039480210297 %
+Epoch number 7
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+803s - loss: 3.5977 - mean_squared_error: 0.0085 - acc: 0.1313 - val_loss: 3.7010 - val_mean_squared_error: 0.0085 - val_acc: 0.1098
+Pick: Lich, Clockwerk, Faceless Void, Invoker, Troll Warlord VS Earthshaker, Shadow Shaman, Jakiro, Mirana, Chaos Knight
+
+Ban: Spirit Breaker, Night Stalker, Monkey King, Outworld Devourer, Anti-Mage VS Necrophos, Venomancer, Viper, Nyx Assassin, Sand King
+Last pick accuracy: 10.323876599543697 %
+Epoch number 8
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+1005s - loss: 3.5644 - mean_squared_error: 0.0084 - acc: 0.1369 - val_loss: 3.7146 - val_mean_squared_error: 0.0085 - val_acc: 0.1093
+Pick: Ogre Magi, Disruptor, Centaur Warrunner, Troll Warlord, Storm Spirit VS Crystal Maiden, Slardar, Centaur Warrunner, Sven, Lina
+
+Ban: Centaur Warrunner, Tinker, Lifestealer, Ursa, Invoker VS Bristleback, Magnus, Dark Seer, Axe, Outworld Devourer
+Last pick accuracy: 10.695863505604603 %
+Epoch number 9
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+974s - loss: 3.5302 - mean_squared_error: 0.0084 - acc: 0.1427 - val_loss: 3.7286 - val_mean_squared_error: 0.0086 - val_acc: 0.1087
+Pick: Ogre Magi, Rubick, Ursa, Axe, Shadow Fiend VS Warlock, Disruptor, Tidehunter, Slark, Lina
+
+Ban: Legion Commander, Tinker, Dark Seer, Troll Warlord, Outworld Devourer VS Bristleback, Jakiro, Magnus, Invoker, Templar Assassin
+Last pick accuracy: 10.157722448169825 %
+Epoch number 10
+Train on 80649 samples, validate on 20162 samples
+Epoch 1/1
+1033s - loss: 3.4989 - mean_squared_error: 0.0084 - acc: 0.1484 - val_loss: 3.7513 - val_mean_squared_error: 0.0086 - val_acc: 0.1072
+Pick: Earthshaker, Jakiro, Legion Commander, Invoker, Lifestealer VS Night Stalker, Shadow Shaman, Puck, Troll Warlord, Dark Seer
+
+Ban: Winter Wyvern, Venomancer, Nature's Prophet, Nyx Assassin, Magnus VS Necrophos, Lich, Viper, Faceless Void, Sven

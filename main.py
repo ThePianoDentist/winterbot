@@ -18,9 +18,16 @@ from sklearn.model_selection import cross_val_score, KFold
 with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
     HEROES = json.load(f)
 
+ix_to_hero = {ix: char for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
+hero_to_ix = {char: ix for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
 
-def hero_id_to_ix(hero_id):
-    return hero_id - 1 if hero_id < 24 else hero_id - 2
+
+def hero_ix_to_input_ix(ix, is_us, is_pick):
+    if not is_us:
+        ix += 113 * 2
+    if is_pick:
+        ix += 113
+    return ix
 
 
 def request_(req_url, sleep_time=1):
@@ -44,6 +51,7 @@ def request_(req_url, sleep_time=1):
 
 
 def get_matches():
+    # holy crap this league has lots of games 4122
     skip = 0
     leagues_json = []
     while True:
@@ -74,16 +82,16 @@ def get_matches():
 
 data = []
 if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
-        data = ast.literal_eval(f.read())
+    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
+    #     data = ast.literal_eval(f.read())
 
-    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
-    #     inputs = ast.literal_eval(f.read())
-    #     print("loadede inputs")
-    #
-    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
-    #     outputs = ast.literal_eval(f.read())
-    #     print("loadede outputs")
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
+        inputs = ast.literal_eval(f.read())
+        print("loadede inputs")
+
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
+        outputs = ast.literal_eval(f.read())
+        print("loadede outputs")
 else:
     matches = get_matches()
     inputs = []
@@ -102,12 +110,12 @@ else:
                     outputs.append(hero_id)
                     inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
 
-                index = hero_id_to_ix(hero_id)
+                index = hero_to_ix[hero_id]
                 if is_pick:
                     index += 113
                 input_[index] = 1
             else:  # enemy picks/bans
-                index = hero_id_to_ix(hero_id) + 113 * 2
+                index = hero_to_ix[hero_id] + 113 * 2
                 if is_pick:
                     index += 113
                 input_[index] = 1
@@ -122,35 +130,75 @@ else:
         f.write(str(outputs))
     exit()
 
-heroes = list(set(data))
-VOCAB_SIZE = len(heroes)  # number of heroes available in captains mode essentially
-SEQ_LENGTH = 20
-num_sequences = int(len(data) / SEQ_LENGTH)
+# heroes = list(set(data))
+# VOCAB_SIZE = len(heroes)  # number of heroes available in captains mode essentially
+# SEQ_LENGTH = 20
+# num_sequences = int(len(data) / SEQ_LENGTH)
 
-ix_to_hero = {ix: char for ix, char in enumerate(heroes)}
-hero_to_ix = {char: ix for ix, char in enumerate(heroes)}
+
+def next_pick(model, inputs, already_picked):
+    a = model.predict(np.array([inputs]))
+    probs = a[0]
+    probs = [i[0] for i in reversed(sorted(enumerate(probs), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
+    counter = 0
+    picked = False
+    while not picked:
+        hero_id = ix_to_hero[probs[counter]]
+        if hero_id not in already_picked:
+            picked = True
+            to_pick = HEROES[str(hero_id)]["localized_name"]
+        counter += 1
+    return hero_id
+
+
+def predict_last_pick(model, *args, full_input=None):
+    if full_input:
+        return next_pick(model, full_input, [ix_to_hero[index % 113] for index, value in enumerate(full_input) if value == 1])
+
+    our_bans, our_picks, their_bans, their_picks = args
+    input_ = [-1] * (113 * 4)
+    for b in our_bans:
+        input_[hero_ix_to_input_ix(hero_to_ix[b], True, False)] = 1
+    for b in their_bans:
+        input_[hero_ix_to_input_ix(hero_to_ix[b], False, False)] = 1
+    for p in our_picks:
+        input_[hero_ix_to_input_ix(hero_to_ix[p], True, True)] = 1
+    for p in their_picks:
+        input_[hero_ix_to_input_ix(hero_to_ix[p], False, True)] = 1
+    return next_pick(model, input_, our_bans + our_picks + their_bans + their_picks)
 
 
 def basic_nn(inputs_, outputs_):
     # validation_split does not shuffle data set i dont think
     from sklearn.utils import shuffle
-    inputs_, outputs_ = shuffle(inputs_, outputs_)
+    from sklearn.model_selection import train_test_split
+    #inputs_, outputs_ = shuffle(inputs_, outputs_)
+    # from collections import Counter
+    # c = Counter([tuple(i) for i in inputs_])
+    # print(len(inputs_))
+    # print(len(c))
+    inputs_, val_inputs, outputs_, val_outputs = train_test_split(inputs_, outputs_, test_size=0.2)
     # could also just use from sklearn.model_selection import train_test_split
     # check/google relu vs sigmoid
     dim = 113 * 4 * 2
-    outputs_ = [hero_id_to_ix(o) for o in outputs_]
+    outputs_ = [hero_to_ix[o] for o in outputs_]
+    val_outputs = [hero_to_ix[o] for o in val_outputs]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
+    one_hot_labels_val = keras.utils.to_categorical(val_outputs, num_classes=113)
     model = Sequential()
     model.add(Dropout(0.2, input_shape=(113*4,)))
     model.add(Dense(dim, activation='sigmoid'))
     model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
-    model.add(Dropout(0))
+    #model.add(Dropout(0))
     model.add(Dense(dim // 2, activation='sigmoid'))
     model.add(LeakyReLU())
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
-    model.fit(np.array(inputs_), one_hot_labels, epochs=150, batch_size=32, verbose=2, validation_split=0.2)
-    return
+    model.fit(np.array(inputs_), one_hot_labels, epochs=2, batch_size=32, verbose=2, validation_data=(val_inputs, one_hot_labels_val))
+    for i in range(10):
+        print(HEROES[str(predict_last_pick(model, full_input=inputs_[~i]))]["localized_name"])
+        print(HEROES[str(ix_to_hero[outputs_[~i]])]["localized_name"])
+    return model
 
 
 def generate_draft(model):
@@ -205,22 +253,12 @@ def second_phase_pick_accuracy(model, x):
     return phase_accuracy(model, x, 12, 4)
 
 
-def next_pick(model, already_picked):
-    picked = False
+def next_pick_rnn(model, already_picked):
     X = np.zeros((1, SEQ_LENGTH, VOCAB_SIZE))
     for i, pick in enumerate(already_picked):
         ix = hero_to_ix[pick]
         X[0, i, :][ix] = 1
-    probs = model.predict(X[:, :i + 1, :])[0][-1]
-    probs = [i[0] for i in reversed(sorted(enumerate(probs), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
-    counter = 0
-    while not picked:
-        hero_id = ix_to_hero[probs[counter]]
-        if hero_id not in already_picked:
-            picked = True
-            to_pick = HEROES[str(hero_id)]["localized_name"]
-        counter += 1
-    return hero_id
+    return next_pick(model, X[:, :i + 1, :], already_picked)
 
 
 def plot_learning_curves(hist, filename):
@@ -322,9 +360,11 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
         plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
                                        nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
                                    ))
+    return model
 
 if __name__ == "__main__":
     from tensorflow.python.client import device_lib
 
-    #basic_nn(inputs, outputs)
-    rnn(114, 114, 114, 0, 0, 0, epochs=200, batch_size=128, learning_rate=0.005)
+    model = basic_nn(inputs, outputs)
+    #model = rnn(500, 300, 300, 0.05, 0.4, 0, epochs=200, batch_size=16, learning_rate=0.005)
+    model.save('my_model.h5')
