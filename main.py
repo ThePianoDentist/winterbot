@@ -12,14 +12,25 @@ from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout, Leak
 from keras.models import Sequential
 from keras.optimizers import adam
 import matplotlib.pyplot as plt
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import cross_val_score, KFold
 
 with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
     HEROES = json.load(f)
 
 ix_to_hero = {ix: char for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
 hero_to_ix = {char: ix for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
+
+
+def input_ids_to_categorical(heroes):
+    input_ = [-1] * (113 * 4)
+    for hero in (h for idx, h in enumerate(heroes) if idx in (0, 2, 9, 11, 17)):  # their bans
+        input_[hero_ix_to_input_ix(hero_to_ix[hero], False, False)] = 1
+    for hero in (h for idx, h in enumerate(heroes) if idx in (1, 3, 8, 10, 16)):  # our bans
+        input_[hero_ix_to_input_ix(hero_to_ix[hero], True, False)] = 1
+    for hero in (h for idx, h in enumerate(heroes) if idx in (4, 7, 13, 15, 18)):  # their picks
+        input_[hero_ix_to_input_ix(hero_to_ix[hero], False, True)] = 1
+    for hero in (h for idx, h in enumerate(heroes) if idx in (5, 6, 12, 14)):  # our picks
+        input_[hero_ix_to_input_ix(hero_to_ix[hero], True, True)] = 1
+    return input_
 
 
 def hero_ix_to_input_ix(ix, is_us, is_pick):
@@ -80,55 +91,57 @@ def get_matches():
     return matches
 
 
-data = []
-if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
-    # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
-    #     data = ast.literal_eval(f.read())
+def load_data():
+    data = []
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
+        # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
+        #     data = ast.literal_eval(f.read())
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
-        inputs = ast.literal_eval(f.read())
-        print("loadede inputs")
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
+            inputs = ast.literal_eval(f.read())
+            print("loadede inputs")
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
-        outputs = ast.literal_eval(f.read())
-        print("loadede outputs")
-else:
-    matches = get_matches()
-    inputs = []
-    outputs = []
-    for match in matches:
-        input_ = [-1] * (113 * 4)
-        if len(match) != 20:
-            continue
-        last_pick_team = match[-1]["team"]
-        for i, pick in enumerate(match):
-            is_pick = pick["isPick"]
-            hero_id = pick["heroId"]
-            data.append(hero_id)
-            if pick["team"] == last_pick_team:  # our picks/bans
-                if i == 19:  # lets just focus on testing last pick
-                    outputs.append(hero_id)
-                    inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
+            outputs = ast.literal_eval(f.read())
+            print("loadede outputs")
+    else:
+        matches = get_matches()
+        inputs = []
+        outputs = []
+        for match in matches:
+            input_ = [-1] * (113 * 4)
+            if len(match) != 20:
+                continue
+            last_pick_team = match[-1]["team"]
+            for i, pick in enumerate(match):
+                is_pick = pick["isPick"]
+                hero_id = pick["heroId"]
+                data.append(hero_id)
+                if pick["team"] == last_pick_team:  # our picks/bans
+                    if i == 19:  # lets just focus on testing last pick
+                        outputs.append(hero_id)
+                        inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
 
-                index = hero_to_ix[hero_id]
-                if is_pick:
-                    index += 113
-                input_[index] = 1
-            else:  # enemy picks/bans
-                index = hero_to_ix[hero_id] + 113 * 2
-                if is_pick:
-                    index += 113
-                input_[index] = 1
+                    index = hero_to_ix[hero_id]
+                    if is_pick:
+                        index += 113
+                    input_[index] = 1
+                else:  # enemy picks/bans
+                    index = hero_to_ix[hero_id] + 113 * 2
+                    if is_pick:
+                        index += 113
+                    input_[index] = 1
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt"), "w+") as f:
-        f.write(str(data))
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt"), "w+") as f:
+            f.write(str(data))
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.txt"), "w+") as f:
-        f.write(str(inputs))
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.txt"), "w+") as f:
+            f.write(str(inputs))
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.txt"), "w+") as f:
-        f.write(str(outputs))
-    exit()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.txt"), "w+") as f:
+            f.write(str(outputs))
+
+    return data, inputs, outputs
 
 # heroes = list(set(data))
 # VOCAB_SIZE = len(heroes)  # number of heroes available in captains mode essentially
@@ -136,24 +149,33 @@ else:
 # num_sequences = int(len(data) / SEQ_LENGTH)
 
 
-def next_pick(model, inputs, already_picked):
+def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
     a = model.predict(np.array([inputs]))
     probs = a[0]
-    probs = [i[0] for i in reversed(sorted(enumerate(probs), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
-    counter = 0
-    picked = False
-    while not picked:
-        hero_id = ix_to_hero[probs[counter]]
-        if hero_id not in already_picked:
-            picked = True
-            to_pick = HEROES[str(hero_id)]["localized_name"]
-        counter += 1
-    return hero_id
+    probs = (i for i in reversed(sorted(enumerate(probs), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
+    if not allow_duplicates:
+        probs = (p for p in probs if ix_to_hero[p[0]] not in already_picked)  # is generators actually more efficient here when knowing going to iterate over whole list?
+
+    if pick_max:
+        return next(probs)[0]
+    else:
+        total_prob = sum(p[1] for p in probs)
+        # prob not necessary to be REALLY random but meh
+        randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  #https://stackoverflow.com/a/33359758/3920439
+        randy *= total_prob
+        counter = 0.0
+        for hero_ix, prob in probs:
+            counter += prob
+            if counter >= randy:
+                return ix_to_hero[hero_ix]
 
 
-def predict_last_pick(model, *args, full_input=None):
+def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplicates=True):
     if full_input:
-        return next_pick(model, full_input, [ix_to_hero[index % 113] for index, value in enumerate(full_input) if value == 1])
+        return next_pick(
+            model, full_input, [ix_to_hero[index % 113] for index, value in enumerate(full_input) if value == 1],
+            pick_max=pick_max
+        )
 
     our_bans, our_picks, their_bans, their_picks = args
     input_ = [-1] * (113 * 4)
@@ -165,7 +187,8 @@ def predict_last_pick(model, *args, full_input=None):
         input_[hero_ix_to_input_ix(hero_to_ix[p], True, True)] = 1
     for p in their_picks:
         input_[hero_ix_to_input_ix(hero_to_ix[p], False, True)] = 1
-    return next_pick(model, input_, our_bans + our_picks + their_bans + their_picks)
+    return next_pick(model, input_, our_bans + our_picks + their_bans + their_picks, pick_max=pick_max,
+                     allow_duplicates=allow_duplicates)
 
 
 def basic_nn(inputs_, outputs_):
@@ -201,7 +224,7 @@ def basic_nn(inputs_, outputs_):
     return model
 
 
-def generate_draft(model):
+def generate_draft(model, pick_max=True, allow_duplicates=True):
     ix = [np.random.randint(VOCAB_SIZE)]
     y_hero = [ix_to_hero[ix[-1]]]
     X = np.zeros((1, SEQ_LENGTH, VOCAB_SIZE))
@@ -219,7 +242,22 @@ def generate_draft(model):
             picks_a.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
         else:  # 5 6 12 14 19
             picks_b.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
-        ix = np.argmax(model.predict(X[:, :i + 1, :])[0], 1)
+        predictions = model.predict(X[:, :i + 1, :])[0]
+        if allow_duplicates:
+            predictions = (p for i, p in enumerate(predictions) if p[0] not in ix)
+        if pick_max:
+            ix = np.argmax(predictions, 1)
+        else:
+            total_prob = sum(p[1] for p in predictions)
+            # prob not necessary to be REALLY random but meh
+            randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
+            randy *= total_prob
+            counter = 0.0
+            for hero_ix, prob in predictions:
+                counter += prob
+                if counter >= randy:
+                    ix.append(hero_ix)
+                    break
         y_hero.append(ix_to_hero[ix[-1]])
     print_list = picks_a + picks_b + bans_a + bans_b
     print("Pick: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s\n\nBan: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s" %
@@ -364,7 +402,7 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
 
 if __name__ == "__main__":
     from tensorflow.python.client import device_lib
-
+    data, inputs, outputs = load_data()
     model = basic_nn(inputs, outputs)
     #model = rnn(500, 300, 300, 0.05, 0.4, 0, epochs=200, batch_size=16, learning_rate=0.005)
     model.save('my_model.h5')
