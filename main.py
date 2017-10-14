@@ -240,8 +240,8 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
         else:  # 5 6 12 14 19
             picks_b.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
         predictions = model.predict(X[:, :i + 1, :])[0][0]
-        if allow_duplicates:
-            predictions = (p for i, p in enumerate(predictions) if i not in ix)
+        if not allow_duplicates:
+            predictions = [p for i, p in enumerate(predictions) if i not in ix]
         if pick_max:
             ix.append(np.argmax(predictions))
         else:
