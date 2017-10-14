@@ -18,6 +18,8 @@ with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
 
 ix_to_hero = {ix: char for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
 hero_to_ix = {char: ix for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
+VOCAB_SIZE = len(HEROES)  # number of heroes in game
+SEQ_LENGTH = 20
 
 
 def input_ids_to_categorical(heroes):
@@ -94,8 +96,8 @@ def get_matches():
 def load_data():
     data = []
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
-        # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
-        #     data = ast.literal_eval(f.read())
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
+            data = ast.literal_eval(f.read())
 
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
             inputs = ast.literal_eval(f.read())
@@ -142,11 +144,6 @@ def load_data():
             f.write(str(outputs))
 
     return data, inputs, outputs
-
-# heroes = list(set(data))
-# VOCAB_SIZE = len(heroes)  # number of heroes available in captains mode essentially
-# SEQ_LENGTH = 20
-# num_sequences = int(len(data) / SEQ_LENGTH)
 
 
 def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
@@ -242,18 +239,18 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
             picks_a.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
         else:  # 5 6 12 14 19
             picks_b.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
-        predictions = model.predict(X[:, :i + 1, :])[0]
+        predictions = model.predict(X[:, :i + 1, :])[0][0]
         if allow_duplicates:
-            predictions = (p for i, p in enumerate(predictions) if p[0] not in ix)
+            predictions = (p for i, p in enumerate(predictions) if i not in ix)
         if pick_max:
-            ix = np.argmax(predictions, 1)
+            ix.append(np.argmax(predictions))
         else:
-            total_prob = sum(p[1] for p in predictions)
+            total_prob = sum(predictions)
             # prob not necessary to be REALLY random but meh
             randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
             randy *= total_prob
             counter = 0.0
-            for hero_ix, prob in predictions:
+            for hero_ix, prob in enumerate(predictions):
                 counter += prob
                 if counter >= randy:
                     ix.append(hero_ix)
@@ -272,7 +269,7 @@ def phase_accuracy(model, x, phase_start, phase_length):
         for j in range(phase_length):
             seq = x[i]
             already_picked = seq[:phase_start + j]
-            predict_next = next_pick(model, [ix_to_hero[np.where(p==1)[0][0]] for p in already_picked])
+            predict_next = next_pick(model, [ix_to_hero[np.where(p==1)[0][0]] for p in already_picked], already_picked)
             if hero_to_ix[predict_next] == np.where(seq[phase_start + j]==1)[0][0]:
                 correct[j] += 1
 
@@ -312,7 +309,7 @@ def plot_learning_curves(hist, filename):
     plt.close()
 
 
-def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
+def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
     # 0.001 is default for adam
     X = np.zeros((num_sequences, SEQ_LENGTH, VOCAB_SIZE))
     y = np.zeros((num_sequences, SEQ_LENGTH, VOCAB_SIZE))
@@ -360,8 +357,8 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
     for i, e in enumerate(range(epochs)):
         print("Epoch number %s" % (i + 1))
         results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
-        generate_draft(model)
-        print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
+        #generate_draft(model)
+        #print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
         #print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
         #print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
         if i % 10 == 0:
@@ -380,9 +377,9 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
             'epochs': epochs,
             'learning_rate': learning_rate,
             'batch_size': batch_size,
-            'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
-            "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
-            "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
+            # 'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
+            # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
+            # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         }
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "results/rnn_%s_%s_%s_%s_%s_%s_%s_%s.json" % (
@@ -403,6 +400,8 @@ def rnn(nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learni
 if __name__ == "__main__":
     from tensorflow.python.client import device_lib
     data, inputs, outputs = load_data()
-    model = basic_nn(inputs, outputs)
-    #model = rnn(500, 300, 300, 0.05, 0.4, 0, epochs=200, batch_size=16, learning_rate=0.005)
-    model.save('my_model.h5')
+    num_sequences = int(len(data) / SEQ_LENGTH)
+    #model = basic_nn(inputs, outputs)
+    model = rnn(int(len(data) / SEQ_LENGTH), 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
+    model.save('my_modelrnn.h5')
+    generate_draft(model)
