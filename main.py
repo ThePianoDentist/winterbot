@@ -12,6 +12,7 @@ from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout, Leak
 from keras.models import Sequential
 from keras.optimizers import adam
 import matplotlib.pyplot as plt
+from sklearn.cross_validation import train_test_split
 
 with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
     HEROES = json.load(f)
@@ -111,28 +112,17 @@ def load_data():
         inputs = []
         outputs = []
         for match in matches:
-            input_ = [-1] * (113 * 4)
+            input_ = []
             if len(match) != 20:
                 continue
-            last_pick_team = match[-1]["team"]
             for i, pick in enumerate(match):
-                is_pick = pick["isPick"]
                 hero_id = pick["heroId"]
                 data.append(hero_id)
-                if pick["team"] == last_pick_team:  # our picks/bans
-                    if i == 19:  # lets just focus on testing last pick
-                        outputs.append(hero_id)
-                        inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
-
-                    index = hero_to_ix[hero_id]
-                    if is_pick:
-                        index += 113
-                    input_[index] = 1
-                else:  # enemy picks/bans
-                    index = hero_to_ix[hero_id] + 113 * 2
-                    if is_pick:
-                        index += 113
-                    input_[index] = 1
+                if i == 19:  # lets just focus on testing last pick
+                    outputs.append(hero_id)
+                    inputs.append(input_)  # copy necessary otherwise future loops will screw up old results!
+                else:
+                    input_.append(hero_id)
 
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt"), "w+") as f:
             f.write(str(data))
@@ -147,7 +137,7 @@ def load_data():
 
 
 def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
-    a = model.predict(np.array([inputs]))
+    a = model.predict(np.array(inputs))
     probs = a[0]
     probs = (i for i in reversed(sorted(enumerate(probs), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
     if not allow_duplicates:
@@ -189,10 +179,6 @@ def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplic
 
 
 def basic_nn(inputs_, outputs_):
-    # validation_split does not shuffle data set i dont think
-    from sklearn.utils import shuffle
-    from sklearn.model_selection import train_test_split
-    #inputs_, outputs_ = shuffle(inputs_, outputs_)
     # from collections import Counter
     # c = Counter([tuple(i) for i in inputs_])
     # print(len(inputs_))
@@ -201,6 +187,7 @@ def basic_nn(inputs_, outputs_):
     # could also just use from sklearn.model_selection import train_test_split
     # check/google relu vs sigmoid
     dim = 113 * 4 * 2
+    inputs_ = [input_ids_to_categorical(i) for i in inputs_]
     outputs_ = [hero_to_ix[o] for o in outputs_]
     val_outputs = [hero_to_ix[o] for o in val_outputs]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
@@ -269,7 +256,7 @@ def phase_accuracy(model, x, phase_start, phase_length):
         for j in range(phase_length):
             seq = x[i]
             already_picked = seq[:phase_start + j]
-            predict_next = next_pick(model, [ix_to_hero[np.where(p==1)[0][0]] for p in already_picked], already_picked)
+            predict_next = next_pick_rnn(model, [ix_to_hero[np.where(p==1)[0][0]] for p in already_picked])
             if hero_to_ix[predict_next] == np.where(seq[phase_start + j]==1)[0][0]:
                 correct[j] += 1
 
@@ -357,7 +344,7 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
     for i, e in enumerate(range(epochs)):
         print("Epoch number %s" % (i + 1))
         results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
-        #generate_draft(model)
+        generate_draft(model)
         #print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
         #print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
         #print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
@@ -377,9 +364,9 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
             'epochs': epochs,
             'learning_rate': learning_rate,
             'batch_size': batch_size,
-            # 'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
-            # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
-            # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
+            'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
+            "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
+            "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         }
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "results/rnn_%s_%s_%s_%s_%s_%s_%s_%s.json" % (
@@ -398,10 +385,9 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
     return model
 
 if __name__ == "__main__":
-    from tensorflow.python.client import device_lib
     data, inputs, outputs = load_data()
     num_sequences = int(len(data) / SEQ_LENGTH)
     #model = basic_nn(inputs, outputs)
     model = rnn(int(len(data) / SEQ_LENGTH), 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
-    model.save('my_modelrnn.h5')
+    #model.save('my_modelrnn.h5')
     generate_draft(model)
