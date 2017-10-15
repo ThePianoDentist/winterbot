@@ -14,8 +14,10 @@ from keras.optimizers import adam
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
-    HEROES = json.load(f)
+from herolist import heroes
+
+HEROES = {e["id"]: e["name"] for e in heroes}
+HEROES_INVERT = {v: k for k, v in HEROES.items()}
 
 ix_to_hero = {ix: char for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
 hero_to_ix = {char: ix for ix, char in enumerate(sorted([int(k) for k in HEROES.keys()]))}
@@ -96,6 +98,8 @@ def get_matches():
 
 def load_data():
     data = []
+    inputs = []
+    outputs = []
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
             data = ast.literal_eval(f.read())
@@ -109,8 +113,6 @@ def load_data():
             print("loadede outputs")
     else:
         matches = get_matches()
-        inputs = []
-        outputs = []
         for match in matches:
             input_ = []
             if len(match) != 20:
@@ -203,8 +205,8 @@ def basic_nn(inputs_, outputs_):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
     model.fit(np.array(inputs_), one_hot_labels, epochs=2, batch_size=32, verbose=2, validation_data=(val_inputs, one_hot_labels_val))
     for i in range(10):
-        print(HEROES[str(predict_last_pick(model, full_input=inputs_[~i]))]["localized_name"])
-        print(HEROES[str(ix_to_hero[outputs_[~i]])]["localized_name"])
+        print(HEROES[predict_last_pick(model, full_input=inputs_[~i])])
+        print(HEROES[ix_to_hero[outputs_[~i]]])
     return model
 
 
@@ -219,13 +221,54 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
     for i in range(SEQ_LENGTH):
         X[0, i, :][ix[-1]] = 1
         if i in [0, 2, 9, 11, 17]:
-            bans_a.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
+            bans_a.append(HEROES[ix_to_hero[ix[-1]]])
         elif i in [1, 3, 8, 10, 16]:
-            bans_b.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
+            bans_b.append(HEROES[ix_to_hero[ix[-1]]])
         elif i in [4, 7, 13, 15, 18]:
-            picks_a.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
+            picks_a.append(HEROES[ix_to_hero[ix[-1]]])
         else:  # 5 6 12 14 19
-            picks_b.append(HEROES[str(ix_to_hero[ix[-1]])]["localized_name"])
+            picks_b.append(HEROES[ix_to_hero[ix[-1]]])
+        predictions = model.predict(X[:, :i + 1, :])[0][0]
+        if not allow_duplicates:
+            predictions = [p for i, p in enumerate(predictions) if i not in ix]
+        if pick_max:
+            ix.append(np.argmax(predictions))
+        else:
+            total_prob = sum(predictions)
+            # prob not necessary to be REALLY random but meh
+            randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
+            randy *= total_prob
+            counter = 0.0
+            for hero_ix, prob in enumerate(predictions):
+                counter += prob
+                if counter >= randy:
+                    ix.append(hero_ix)
+                    break
+        y_hero.append(ix_to_hero[ix[-1]])
+    print_list = picks_a + picks_b + bans_a + bans_b
+    print("Pick: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s\n\nBan: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s" %
+          tuple(print_list))
+    return y_hero
+
+
+def generate_draft_rest(model, pickbans, pick_max=True, allow_duplicates=True):
+    ix = [np.random.randint(VOCAB_SIZE)]
+    y_hero = [ix_to_hero[ix[-1]]]
+    X = np.zeros((1, SEQ_LENGTH, VOCAB_SIZE))
+    picks_a = []
+    picks_b = []
+    bans_a = []
+    bans_b = []
+    for i in range(SEQ_LENGTH):
+        X[0, i, :][ix[-1]] = 1
+        if i in [0, 2, 9, 11, 17]:
+            bans_a.append(HEROES[ix_to_hero[ix[-1]]])
+        elif i in [1, 3, 8, 10, 16]:
+            bans_b.append(HEROES[ix_to_hero[ix[-1]]])
+        elif i in [4, 7, 13, 15, 18]:
+            picks_a.append(HEROES[ix_to_hero[ix[-1]]])
+        else:  # 5 6 12 14 19
+            picks_b.append(HEROES[ix_to_hero[ix[-1]]])
         predictions = model.predict(X[:, :i + 1, :])[0][0]
         if not allow_duplicates:
             predictions = [p for i, p in enumerate(predictions) if i not in ix]
@@ -298,6 +341,7 @@ def plot_learning_curves(hist, filename):
 
 def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
     # 0.001 is default for adam
+    num_sequences = int(len(data) / SEQ_LENGTH)
     X = np.zeros((num_sequences, SEQ_LENGTH, VOCAB_SIZE))
     y = np.zeros((num_sequences, SEQ_LENGTH, VOCAB_SIZE))
     seq_counter = 0
@@ -386,8 +430,7 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
 
 if __name__ == "__main__":
     data, inputs, outputs = load_data()
-    num_sequences = int(len(data) / SEQ_LENGTH)
     #model = basic_nn(inputs, outputs)
-    model = rnn(int(len(data) / SEQ_LENGTH), 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
-    model.save('my_modelrnn.h5')
+    model = rnn(data, 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
+    #model.save('my_modelrnn.h5')
     generate_draft(model)
