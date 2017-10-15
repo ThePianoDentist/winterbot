@@ -139,7 +139,7 @@ def load_data():
 def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
     a = model.predict(np.array(inputs))
     probs = a[0]
-    probs = (i for i in reversed(sorted(enumerate(probs), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
+    probs = [i for i in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
     if not allow_duplicates:
         probs = (p for p in probs if ix_to_hero[p[0]] not in already_picked)  # is generators actually more efficient here when knowing going to iterate over whole list?
 
@@ -364,9 +364,9 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
             'epochs': epochs,
             'learning_rate': learning_rate,
             'batch_size': batch_size,
-            'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
-            "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
-            "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
+            # 'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
+            # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
+            # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         }
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "results/rnn_%s_%s_%s_%s_%s_%s_%s_%s.json" % (
@@ -379,9 +379,9 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
         hist_dict['acc'].append(results.history["acc"][0]),
         hist_dict['val_acc'].append(results.history["val_acc"][0]),
 
-        plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
-                                       nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
-                                   ))
+        # plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
+        #                                nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
+        #                            ))
     return model
 
 if __name__ == "__main__":
@@ -389,5 +389,5 @@ if __name__ == "__main__":
     num_sequences = int(len(data) / SEQ_LENGTH)
     #model = basic_nn(inputs, outputs)
     model = rnn(int(len(data) / SEQ_LENGTH), 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
-    #model.save('my_modelrnn.h5')
+    model.save('my_modelrnn.h5')
     generate_draft(model)
