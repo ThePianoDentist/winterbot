@@ -9,5 +9,5 @@ model = load_model(os.path.join(
 setattr(app, 'basicNN', model)
 rnn_model = load_model(os.path.join(
             os.path.dirname(os.path.abspath(__file__)), '../../my_modelrnn.h5'))
-setattr(app, 'rnn', model)
+setattr(app, 'rnn', rnn_model)
 from app import views
