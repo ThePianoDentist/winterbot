@@ -12,7 +12,7 @@ from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout, Leak
 from keras.models import Sequential
 from keras.optimizers import adam
 import matplotlib.pyplot as plt
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 
 with open(os.path.join("/home/jdog/work/python/constants/heroes.json")) as f:
     HEROES = json.load(f)
