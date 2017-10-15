@@ -101,14 +101,14 @@ def load_data():
     inputs = []
     outputs = []
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")):
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.txt")) as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "datanew.txt")) as f:
             data = ast.literal_eval(f.read())
 
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2.bak2")) as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2new.txt")) as f:
             inputs = ast.literal_eval(f.read())
             print("loadede inputs")
 
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3.bak2")) as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3new.txt")) as f:
             outputs = ast.literal_eval(f.read())
             print("loadede outputs")
     else:
@@ -188,8 +188,9 @@ def basic_nn(inputs_, outputs_):
     inputs_, val_inputs, outputs_, val_outputs = train_test_split(inputs_, outputs_, test_size=0.2)
     # could also just use from sklearn.model_selection import train_test_split
     # check/google relu vs sigmoid
-    dim = 113 * 4 * 2
+    dim = 113 * 4 * 4
     inputs_ = [input_ids_to_categorical(i) for i in inputs_]
+    val_inputs = [input_ids_to_categorical(i) for i in val_inputs]
     outputs_ = [hero_to_ix[o] for o in outputs_]
     val_outputs = [hero_to_ix[o] for o in val_outputs]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
@@ -203,10 +204,10 @@ def basic_nn(inputs_, outputs_):
     model.add(LeakyReLU())
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
-    model.fit(np.array(inputs_), one_hot_labels, epochs=2, batch_size=32, verbose=2, validation_data=(val_inputs, one_hot_labels_val))
+    model.fit(np.array(inputs_), one_hot_labels, epochs=50, batch_size=96, verbose=2, validation_data=(val_inputs, one_hot_labels_val))
     for i in range(10):
-        print(HEROES[predict_last_pick(model, full_input=inputs_[~i])])
-        print(HEROES[ix_to_hero[outputs_[~i]]])
+        print("prediction: %s" % HEROES[predict_last_pick(model, full_input=inputs_[~i])])
+        print("actual: %s" % HEROES[ix_to_hero[outputs_[~i]]])
     return model
 
 
@@ -408,7 +409,7 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
             'epochs': epochs,
             'learning_rate': learning_rate,
             'batch_size': batch_size,
-            # 'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
+            'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
             # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
             # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         }
@@ -431,6 +432,7 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
 if __name__ == "__main__":
     data, inputs, outputs = load_data()
     #model = basic_nn(inputs, outputs)
-    model = rnn(data, 150, 150, 0, 0.2, 0.05, 0, epochs=1, batch_size=128, learning_rate=0.005)
-    #model.save('my_modelrnn.h5')
-    generate_draft(model)
+    #model = rnn(data, 500, 400, 300, 0.8, 0.2, 0, epochs=40, batch_size=128, learning_rate=0.005)
+    model = rnn(data, 140, 50, 0, 0, 0, 0, epochs=2, batch_size=128, learning_rate=0.1)
+    model.save('my_model.h5')
+    #generate_draft(model)
