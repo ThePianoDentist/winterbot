@@ -3,6 +3,8 @@ import json
 import os
 import time
 import traceback
+import itertools
+from collections import Counter
 from random import shuffle
 from urllib.request import Request, urlopen
 
@@ -11,6 +13,7 @@ import numpy as np
 from keras.layers import Dense, LSTM, Activation, TimeDistributed, Dropout, LeakyReLU
 from keras.models import Sequential
 from keras.optimizers import adam
+import keras.backend as K
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
@@ -139,14 +142,14 @@ def load_data():
 
 
 def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
-    a = model.predict(np.array(inputs))
+    a = model.predict(np.array([inputs]))
     probs = a[0]
-    probs = [i for i in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
+    probs = ((i, p) for i, p in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
     if not allow_duplicates:
         probs = (p for p in probs if ix_to_hero[p[0]] not in already_picked)  # is generators actually more efficient here when knowing going to iterate over whole list?
 
     if pick_max:
-        return next(probs)[0]
+        return ix_to_hero[next(probs)[0]]
     else:
         total_prob = sum(p[1] for p in probs)
         # prob not necessary to be REALLY random but meh
@@ -180,14 +183,8 @@ def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplic
                      allow_duplicates=allow_duplicates)
 
 
-def basic_nn(inputs_, outputs_):
-    # from collections import Counter
-    # c = Counter([tuple(i) for i in inputs_])
-    # print(len(inputs_))
-    # print(len(c))
+def basic_nn(inputs_, outputs_, epochs=50):
     inputs_, val_inputs, outputs_, val_outputs = train_test_split(inputs_, outputs_, test_size=0.2)
-    # could also just use from sklearn.model_selection import train_test_split
-    # check/google relu vs sigmoid
     dim = 113 * 4 * 4
     inputs_ = [input_ids_to_categorical(i) for i in inputs_]
     val_inputs = [input_ids_to_categorical(i) for i in val_inputs]
@@ -195,8 +192,33 @@ def basic_nn(inputs_, outputs_):
     val_outputs = [hero_to_ix[o] for o in val_outputs]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
     one_hot_labels_val = keras.utils.to_categorical(val_outputs, num_classes=113)
+    "https://datascience.stackexchange.com/a/18722"
+    from sklearn.utils import class_weight
+
+    def get_class_weights(y, smooth_factor=0.0):
+        # https://github.com/fchollet/keras/issues/5116
+        """
+        Returns the weights for each class based on the frequencies of the samples
+        :param smooth_factor: factor that smooths extremely uneven weights
+        :param y: list of true labels (the labels must be hashable)
+        :return: dictionary with the weight for each class
+        """
+        counter = Counter(y)
+
+        if smooth_factor > 0:
+            p = max(counter.values()) * smooth_factor
+            for k in counter.keys():
+                counter[k] += p
+
+        majority = max(counter.values())
+
+        return {cls: float(majority / count) for cls, count in counter.items()}
+    original_classes = np.array(outputs_ + [103])  # hacky way to get techies in
+    # class_weight = class_weight.compute_class_weight('balanced', np.unique(original_classes), original_classes)
+    # class_weight = dict(enumerate(class_weight))
+    class_weight = get_class_weights(original_classes, 0.2)
     model = Sequential()
-    model.add(Dropout(0.2, input_shape=(113*4,)))
+    model.add(Dropout(0.02, input_shape=(113*4,)))
     model.add(Dense(dim, activation='sigmoid'))
     model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
     #model.add(Dropout(0))
@@ -204,10 +226,15 @@ def basic_nn(inputs_, outputs_):
     model.add(LeakyReLU())
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
-    model.fit(np.array(inputs_), one_hot_labels, epochs=50, batch_size=96, verbose=2, validation_data=(val_inputs, one_hot_labels_val))
-    for i in range(10):
-        print("prediction: %s" % HEROES[predict_last_pick(model, full_input=inputs_[~i])])
-        print("actual: %s" % HEROES[ix_to_hero[outputs_[~i]]])
+    for epoch in range(epochs):
+        model.fit(
+            np.array(inputs_), one_hot_labels, epochs=1, batch_size=96, verbose=2,
+            validation_data=(val_inputs, one_hot_labels_val), class_weight=class_weight
+        )
+        #model.save('basicnns/my_model%s.h5' % epoch)
+        for i in range(10):
+            print("prediction: %s" % HEROES[predict_last_pick(model, full_input=inputs_[~i])])
+            print("actual: %s" % HEROES[ix_to_hero[outputs_[~i]]])
     return model
 
 
@@ -229,18 +256,20 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
             picks_a.append(HEROES[ix_to_hero[ix[-1]]])
         else:  # 5 6 12 14 19
             picks_b.append(HEROES[ix_to_hero[ix[-1]]])
-        predictions = model.predict(X[:, :i + 1, :])[0][0]
+        predictions = model.predict(X[:, :i + 1, :])[0][i]
         if not allow_duplicates:
-            predictions = [p for i, p in enumerate(predictions) if i not in ix]
-        if pick_max:
-            ix.append(np.argmax(predictions))
+            predictions = [(i, p) for i, p in enumerate(predictions) if i not in ix]
         else:
-            total_prob = sum(predictions)
+            predictions = [(i, p) for i, p in enumerate(predictions)]
+        if pick_max:
+            ix.append(next(reversed(sorted(predictions, key=lambda x: x[1])))[0])
+        else:
+            total_prob = sum(p[1] for p in predictions)
             # prob not necessary to be REALLY random but meh
             randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
             randy *= total_prob
             counter = 0.0
-            for hero_ix, prob in enumerate(predictions):
+            for hero_ix, prob in predictions:
                 counter += prob
                 if counter >= randy:
                     ix.append(hero_ix)
@@ -333,14 +362,48 @@ def plot_learning_curves(hist, filename):
     ax1.set(xlabel="epochs", ylabel="mse")
     ax0.plot(hist['acc'], label="train")
     ax0.plot(hist['val_acc'], label="val")
-    ax1.plot(hist['mean_squared_error'], label="train")
-    ax1.plot(hist['val_mean_squared_error'], label="val")
+    ax1.plot(hist['mse'], label="train")
+    ax1.plot(hist['val_mse'], label="val")
     ax0.legend(loc='upper left')
     plt.savefig(os.path.join(os.path.dirname(os.path.abspath(__file__)), "graphs/%s.png" % filename))
     plt.close()
 
+# So I think this technically works.
+# but the slowdown is unberably large for a net this size
+# not to mention seems to use more memory, pushing my pc into breaking territory
+# when were taking into account all picks
+# weighting the categories is less of a big deal here
+# than for the basic neural net
+# but maybe Im just saying that to make myself feel better
+"https://github.com/fchollet/keras/issues/2115#issuecomment-204060456"
+class WeightedCategoricalCrossEntropy(object):
 
-def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
+    def __init__(self, weights):
+        nb_cl = len(weights)
+        self.weights = np.ones((nb_cl, nb_cl))
+        for class_idx, class_weight in weights.items():
+            self.weights[0][class_idx] = class_weight
+            self.weights[class_idx][0] = class_weight
+        self.__name__ = 'w_categorical_crossentropy'
+
+    def __call__(self, y_true, y_pred):
+        return self.w_categorical_crossentropy(y_true, y_pred)
+
+    def w_categorical_crossentropy(self, y_true, y_pred):
+        nb_cl = len(self.weights)
+        final_mask = K.zeros_like(y_pred[..., 0])
+        y_pred_max = K.max(y_pred, axis=-1)
+        y_pred_max = K.expand_dims(y_pred_max, axis=-1)
+        y_pred_max_mat = K.equal(y_pred, y_pred_max)
+        for c_p, c_t in itertools.product(range(nb_cl), range(nb_cl)):
+            w = K.cast(self.weights[c_t, c_p], K.floatx())
+            y_p = K.cast(y_pred_max_mat[..., c_p], K.floatx())  # https://stackoverflow.com/a/118508/3920439
+            y_t = K.cast(y_true[..., c_t], K.floatx())
+            final_mask += w * y_p * y_t
+        return K.categorical_crossentropy(y_pred, y_true) * final_mask
+
+
+def rnn(data, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, learning_rate=0.001, batch_size=16):
     # 0.001 is default for adam
     num_sequences = int(len(data) / SEQ_LENGTH)
     X = np.zeros((num_sequences, SEQ_LENGTH, VOCAB_SIZE))
@@ -369,6 +432,15 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
     X, Xval = X[:-validation_SEQ_LENGTH], X[-validation_SEQ_LENGTH:]
     y, yval = y[:-validation_SEQ_LENGTH], y[-validation_SEQ_LENGTH:]
 
+    # See WeightedCategoricalCrossEntropy class def for why i couldnt get this to work
+    # "https://datascience.stackexchange.com/a/18722"
+    # from sklearn.utils import class_weight
+    # original_classes = y.copy().reshape(-1, y.shape[-1]).argmax(1)  # https://stackoverflow.com/a/26553855/3920439
+    # original_classes = np.append(original_classes, [103])  # hacky way to get techies in
+    # class_weight = class_weight.compute_class_weight('balanced', np.unique(original_classes), original_classes)
+    # class_weight = dict(enumerate(class_weight))
+    #
+    # weighted_loss = WeightedCategoricalCrossEntropy(class_weight)
     model = Sequential()
     if dropout1:
         model.add(Dropout(dropout1, input_shape=(None, VOCAB_SIZE)))
@@ -383,56 +455,58 @@ def rnn(num_sequences, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epo
     model.add(TimeDistributed(Dense(VOCAB_SIZE)))
     model.add(Activation('softmax'))
     optimizer = adam(lr=learning_rate)
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['mse', 'accuracy'])
+    model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=['mse', 'accuracy'])
 
-    hist_dict = {"acc": [], "val_acc": [], "mean_squared_error": [], "val_mean_squared_error": []}  # cant just use results.history because doing epoch 1 in a loop
+    out = {
+        'mse': [],
+        'val_mse': [],
+        'accuracy': [],
+        'val_accuracy': [],
+        'nodes1': nodes1,
+        'nodes2': nodes2,
+        'nodes3': nodes3,
+        'dropout1': dropout1,
+        'dropout2': dropout2,
+        'dropout3': dropout3,
+        'epochs': epochs,
+        'learning_rate': learning_rate,
+        'batch_size': batch_size,
+        'last_phase_pick_accuracy': [],
+        # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
+        # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
+    }
     for i, e in enumerate(range(epochs)):
         print("Epoch number %s" % (i + 1))
-        results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
+        results = model.fit(X, y, validation_data=(Xval, yval), verbose=1, epochs=1, batch_size=batch_size)
         generate_draft(model)
-        #print("Last pick accuracy: %s %%" % (last_phase_pick_accuracy(model, Xval) * 100))
+        last_phase_acc = last_phase_pick_accuracy(model, Xval)
+        print("Last pick accuracy: %s %%" % (last_phase_acc))
         #print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
         #print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
-        if i % 10 == 0:
-            model.save_weights('weights2.hdf5')
-        out = {
-            'mse': results.history["mean_squared_error"],
-            'val_mse': results.history["val_mean_squared_error"],
-            'accuracy': results.history["acc"],
-            'val_accuracy': results.history["val_acc"],
-            'nodes1': nodes1,
-            'nodes2': nodes2,
-            'nodes3': nodes3,
-            'dropout1': dropout1,
-            'dropout2': dropout2,
-            'dropout3': dropout3,
-            'epochs': epochs,
-            'learning_rate': learning_rate,
-            'batch_size': batch_size,
-            'last_phase_pick_accuracy': last_phase_pick_accuracy(model, Xval),
-            # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
-            # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
-        }
+        if i % 2 == 0:
+            model.save('rnns/my_modelrnn%s.h5' % i)
+        out['mse'].append(results.history["mean_squared_error"][0])
+        out['val_mse'].append(results.history["val_mean_squared_error"][0]),
+        out['accuracy'].append(results.history["acc"][0]),
+        out['val_accuracy'].append(results.history["val_acc"][0]),
+        out['last_phase_pick_accuracy'].append(last_phase_acc),
+        # "last_phase_ban_accuracy": last_phase_ban_accuracy(model, Xval),
+        # "second_phase_pick_accuracy": second_phase_pick_accuracy(model, Xval)
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "results/rnn_%s_%s_%s_%s_%s_%s_%s_%s.json" % (
                                    nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
                                )), "w+") as f:
             json.dump(out, f)
 
-        hist_dict['mean_squared_error'].append(results.history["mean_squared_error"][0]),
-        hist_dict['val_mean_squared_error'].append(results.history["val_mean_squared_error"][0]),
-        hist_dict['acc'].append(results.history["acc"][0]),
-        hist_dict['val_acc'].append(results.history["val_acc"][0]),
-
-        # plot_learning_curves(hist_dict, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
-        #                                nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
-        #                            ))
+        plot_learning_curves(out, "rnn_%s_%s_%s_%s_%s_%s_%s_%s" % (
+                                       nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, learning_rate, batch_size
+                                   ))
     return model
 
 if __name__ == "__main__":
     data, inputs, outputs = load_data()
-    #model = basic_nn(inputs, outputs)
-    #model = rnn(data, 500, 400, 300, 0.8, 0.2, 0, epochs=40, batch_size=128, learning_rate=0.005)
-    model = rnn(data, 140, 50, 0, 0, 0, 0, epochs=2, batch_size=128, learning_rate=0.1)
-    model.save('my_model.h5')
+    model = basic_nn(inputs, outputs)
+    #model = rnn(data, 500, 400, 300, 0, 0, 0, epochs=15, batch_size=32, learning_rate=0.002)
+    #model = rnn(data, 114, 114, 0, 0, 0, 0, epochs=15, batch_size=4, learning_rate=0.001)
+    #model.save('my_modelrnn.h5')
     #generate_draft(model)
