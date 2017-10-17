@@ -185,7 +185,7 @@ def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplic
 
 def basic_nn(inputs_, outputs_, epochs=50):
     inputs_, val_inputs, outputs_, val_outputs = train_test_split(inputs_, outputs_, test_size=0.2)
-    dim = 113 * 4 * 4
+    dim = 113 * 4 * 6
     inputs_ = [input_ids_to_categorical(i) for i in inputs_]
     val_inputs = [input_ids_to_categorical(i) for i in val_inputs]
     outputs_ = [hero_to_ix[o] for o in outputs_]
@@ -218,11 +218,13 @@ def basic_nn(inputs_, outputs_, epochs=50):
     # class_weight = dict(enumerate(class_weight))
     class_weight = get_class_weights(original_classes, 0.2)
     model = Sequential()
-    model.add(Dropout(0.02, input_shape=(113*4,)))
-    model.add(Dense(dim, activation='sigmoid'))
+    model.add(Dropout(0.01, input_shape=(113*4,)))
+    model.add(Dense(dim))
     model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
     #model.add(Dropout(0))
-    model.add(Dense(dim // 2, activation='sigmoid'))
+    model.add(Dense(dim // 2))
+    model.add(LeakyReLU())
+    model.add(Dense(dim))
     model.add(LeakyReLU())
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
@@ -231,7 +233,7 @@ def basic_nn(inputs_, outputs_, epochs=50):
             np.array(inputs_), one_hot_labels, epochs=1, batch_size=96, verbose=2,
             validation_data=(val_inputs, one_hot_labels_val), class_weight=class_weight
         )
-        #model.save('basicnns/my_model%s.h5' % epoch)
+        model.save('basicnns/my_model_big%s.h5' % epoch)
         for i in range(10):
             print("prediction: %s" % HEROES[predict_last_pick(model, full_input=inputs_[~i])])
             print("actual: %s" % HEROES[ix_to_hero[outputs_[~i]]])
