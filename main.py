@@ -142,8 +142,9 @@ def load_data():
 
 
 def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=True):
-    a = model.predict(np.array([inputs]))
-    probs = a[0]
+    probs = model.predict(inputs)[0]
+    probs = probs[-1] if isinstance(probs[0], np.ndarray) else probs  # should be checking fro 2d array. this is lazy poor check style
+    # tbh surely I could code it so doesnt need this check?
     probs = ((i, p) for i, p in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
     if not allow_duplicates:
         probs = (p for p in probs if ix_to_hero[p[0]] not in already_picked)  # is generators actually more efficient here when knowing going to iterate over whole list?
@@ -165,7 +166,7 @@ def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=Tru
 def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplicates=True):
     if full_input:
         return next_pick(
-            model, full_input, [ix_to_hero[index % 113] for index, value in enumerate(full_input) if value == 1],
+            model, np.array([full_input]), [ix_to_hero[index % 113] for index, value in enumerate(full_input) if value == 1],
             pick_max=pick_max
         )
 
@@ -179,7 +180,7 @@ def predict_last_pick(model, *args, full_input=None, pick_max=True, allow_duplic
         input_[hero_ix_to_input_ix(hero_to_ix[p], True, True)] = 1
     for p in their_picks:
         input_[hero_ix_to_input_ix(hero_to_ix[p], False, True)] = 1
-    return next_pick(model, input_, our_bans + our_picks + their_bans + their_picks, pick_max=pick_max,
+    return next_pick(model, np.array([input_]), our_bans + our_picks + their_bans + their_picks, pick_max=pick_max,
                      allow_duplicates=allow_duplicates)
 
 
@@ -192,8 +193,6 @@ def basic_nn(inputs_, outputs_, epochs=50):
     val_outputs = [hero_to_ix[o] for o in val_outputs]
     one_hot_labels = keras.utils.to_categorical(outputs_, num_classes=113)
     one_hot_labels_val = keras.utils.to_categorical(val_outputs, num_classes=113)
-    "https://datascience.stackexchange.com/a/18722"
-    from sklearn.utils import class_weight
 
     def get_class_weights(y, smooth_factor=0.0):
         # https://github.com/fchollet/keras/issues/5116
@@ -216,24 +215,22 @@ def basic_nn(inputs_, outputs_, epochs=50):
     original_classes = np.array(outputs_ + [103])  # hacky way to get techies in
     # class_weight = class_weight.compute_class_weight('balanced', np.unique(original_classes), original_classes)
     # class_weight = dict(enumerate(class_weight))
-    class_weight = get_class_weights(original_classes, 0.2)
+    class_weight = get_class_weights(original_classes, 0.5)
     model = Sequential()
-    model.add(Dropout(0.01, input_shape=(113*4,)))
-    model.add(Dense(dim))
-    model.add(LeakyReLU())   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
+    model.add(Dropout(0.02, input_shape=(113*4,)))
+    model.add(Dense(dim, activation="sigmoid"))
+    #model.add(LeakyReLU(alpha=0.6))   # normal relu has dead relu problem. sigmoids/tanhs have vanishing gradients
     #model.add(Dropout(0))
-    model.add(Dense(dim // 2))
-    model.add(LeakyReLU())
-    model.add(Dense(dim))
-    model.add(LeakyReLU())
+    model.add(Dense(dim // 2, activation="sigmoid"))
+    #model.add(LeakyReLU(alpha=0.6))
     model.add(Dense(113, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'mse'])
     for epoch in range(epochs):
         model.fit(
-            np.array(inputs_), one_hot_labels, epochs=1, batch_size=96, verbose=2,
+            np.array(inputs_), one_hot_labels, epochs=1, batch_size=64, verbose=2,
             validation_data=(val_inputs, one_hot_labels_val), class_weight=class_weight
         )
-        model.save('basicnns/my_model_big%s.h5' % epoch)
+        #model.save('basicnns/my_model_big%s.h5' % epoch)
         for i in range(10):
             print("prediction: %s" % HEROES[predict_last_pick(model, full_input=inputs_[~i])])
             print("actual: %s" % HEROES[ix_to_hero[outputs_[~i]]])
@@ -284,30 +281,22 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
 
 
 def generate_draft_rest(model, pickbans, pick_max=True, allow_duplicates=True):
-    ix = [np.random.randint(VOCAB_SIZE)]
-    y_hero = [ix_to_hero[ix[-1]]]
+    num_picks = len(pickbans)
+    ix = [hero_to_ix[pb] for pb in pickbans]
+    y_hero = pickbans
     X = np.zeros((1, SEQ_LENGTH, VOCAB_SIZE))
-    picks_a = []
-    picks_b = []
-    bans_a = []
-    bans_b = []
-    for i in range(SEQ_LENGTH):
+    for i in range(num_picks, SEQ_LENGTH):
+        print(y_hero)
         X[0, i, :][ix[-1]] = 1
-        if i in [0, 2, 9, 11, 17]:
-            bans_a.append(HEROES[ix_to_hero[ix[-1]]])
-        elif i in [1, 3, 8, 10, 16]:
-            bans_b.append(HEROES[ix_to_hero[ix[-1]]])
-        elif i in [4, 7, 13, 15, 18]:
-            picks_a.append(HEROES[ix_to_hero[ix[-1]]])
-        else:  # 5 6 12 14 19
-            picks_b.append(HEROES[ix_to_hero[ix[-1]]])
-        predictions = model.predict(X[:, :i + 1, :])[0][0]
+        predictions = model.predict(X[:, :i + 1, :])[0][i]
         if not allow_duplicates:
-            predictions = [p for i, p in enumerate(predictions) if i not in ix]
-        if pick_max:
-            ix.append(np.argmax(predictions))
+            predictions = [(i, p) for i, p in enumerate(predictions) if i not in ix]
         else:
-            total_prob = sum(predictions)
+            predictions = [(i, p) for i, p in enumerate(predictions)]
+        if pick_max:
+            ix.append(next(reversed(sorted(predictions, key=lambda x: x[1])))[0])
+        else:
+            total_prob = sum(p[1] for p in predictions)
             # prob not necessary to be REALLY random but meh
             randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
             randy *= total_prob
@@ -318,9 +307,8 @@ def generate_draft_rest(model, pickbans, pick_max=True, allow_duplicates=True):
                     ix.append(hero_ix)
                     break
         y_hero.append(ix_to_hero[ix[-1]])
-    print_list = picks_a + picks_b + bans_a + bans_b
     print("Pick: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s\n\nBan: %s, %s, %s, %s, %s VS %s, %s, %s, %s, %s" %
-          tuple(print_list))
+          tuple([HEROES[y] for y in y_hero]))
     return y_hero
 
 
@@ -479,14 +467,14 @@ def rnn(data, nodes1, nodes2, nodes3, dropout1, dropout2, dropout3, epochs=200, 
     }
     for i, e in enumerate(range(epochs)):
         print("Epoch number %s" % (i + 1))
-        results = model.fit(X, y, validation_data=(Xval, yval), verbose=1, epochs=1, batch_size=batch_size)
-        generate_draft(model)
+        results = model.fit(X, y, validation_data=(Xval, yval), verbose=2, epochs=1, batch_size=batch_size)
+        generate_draft_rest(model, [7, 90, 91])
         last_phase_acc = last_phase_pick_accuracy(model, Xval)
         print("Last pick accuracy: %s %%" % (last_phase_acc))
         #print("Last ban accuracy: %s %%" % (last_phase_ban_accuracy(model, Xval) * 100))
         #print("2nd phase pick accuracy: %s %%" % (second_phase_pick_accuracy(model, Xval) * 100))
-        if i % 2 == 0:
-            model.save('rnns/my_modelrnn%s.h5' % i)
+        # if i % 2 == 0:
+        #     model.save('rnns/my_modelrnn%s.h5' % i)
         out['mse'].append(results.history["mean_squared_error"][0])
         out['val_mse'].append(results.history["val_mean_squared_error"][0]),
         out['accuracy'].append(results.history["acc"][0]),
@@ -509,6 +497,6 @@ if __name__ == "__main__":
     data, inputs, outputs = load_data()
     model = basic_nn(inputs, outputs)
     #model = rnn(data, 500, 400, 300, 0, 0, 0, epochs=15, batch_size=32, learning_rate=0.002)
-    #model = rnn(data, 114, 114, 0, 0, 0, 0, epochs=15, batch_size=4, learning_rate=0.001)
+    #model = rnn(data, 114, 114, 0, 0, 0, 0, epochs=15, batch_size=32, learning_rate=0.001)
     #model.save('my_modelrnn.h5')
     #generate_draft(model)
