@@ -109,11 +109,9 @@ def load_data():
 
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data2new.txt")) as f:
             inputs = ast.literal_eval(f.read())
-            print("loadede inputs")
 
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data3new.txt")) as f:
             outputs = ast.literal_eval(f.read())
-            print("loadede outputs")
     else:
         matches = get_matches()
         for match in matches:
@@ -145,12 +143,11 @@ def next_pick(model, inputs, already_picked, pick_max=True, allow_duplicates=Tru
     probs = model.predict(inputs)[0]
     probs = probs[-1] if isinstance(probs[0], np.ndarray) else probs  # should be checking fro 2d array. this is lazy poor check style
     # tbh surely I could code it so doesnt need this check?
-    probs = ((i, p) for i, p in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1])))  # https://stackoverflow.com/a/6422754
+    probs = [(i, p) for i, p in reversed(sorted(list(enumerate(probs)), key=lambda x: x[1]))]  # https://stackoverflow.com/a/6422754
     if not allow_duplicates:
-        probs = (p for p in probs if ix_to_hero[p[0]] not in already_picked)  # is generators actually more efficient here when knowing going to iterate over whole list?
-
+        probs = [p for p in probs if ix_to_hero[p[0]] not in already_picked]  # is generators actually more efficient here when knowing going to iterate over whole list?
     if pick_max:
-        return ix_to_hero[next(probs)[0]]
+        return ix_to_hero[probs[0][0]]
     else:
         total_prob = sum(p[1] for p in probs)
         # prob not necessary to be REALLY random but meh
@@ -269,6 +266,8 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
             randy *= total_prob
             counter = 0.0
             for hero_ix, prob in predictions:
+                print(hero_ix)
+                print(prob)
                 counter += prob
                 if counter >= randy:
                     ix.append(hero_ix)
@@ -281,9 +280,11 @@ def generate_draft(model, pick_max=True, allow_duplicates=True):
 
 
 def generate_draft_rest(model, pickbans, pick_max=True, allow_duplicates=True):
-    num_picks = len(pickbans)
     ix = [hero_to_ix[pb] for pb in pickbans]
-    y_hero = pickbans
+    if len(ix) ==0:
+        ix = [np.random.randint(VOCAB_SIZE)]
+    num_picks = len(ix)
+    y_hero = [ix_to_hero[i] for i in ix]
     X = np.zeros((1, SEQ_LENGTH, VOCAB_SIZE))
     for i in range(num_picks, SEQ_LENGTH):
         print(y_hero)
@@ -301,7 +302,7 @@ def generate_draft_rest(model, pickbans, pick_max=True, allow_duplicates=True):
             randy = int.from_bytes(os.urandom(8), byteorder="big") / ((1 << 64) - 1)  # https://stackoverflow.com/a/33359758/3920439
             randy *= total_prob
             counter = 0.0
-            for hero_ix, prob in enumerate(predictions):
+            for hero_ix, prob in predictions:
                 counter += prob
                 if counter >= randy:
                     ix.append(hero_ix)
